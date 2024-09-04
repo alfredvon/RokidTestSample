@@ -1,0 +1,8 @@
+/Library/
+/Logs/
+.vsconfig
+*/*.dwlt
+*.sln
+UserSettings/Layouts/default-2022.dwlt
+/UserSettings/Layouts
+*.bak
