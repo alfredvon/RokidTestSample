@@ -1,8 +1,11 @@
 /Library/
 /Logs/
+/.vs/
+/obj/
 .vsconfig
 */*.dwlt
 *.sln
 UserSettings/Layouts/default-2022.dwlt
-/UserSettings/Layouts
 *.bak
+Assembly-CSharp.csproj
+/UserSettings
