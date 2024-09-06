@@ -10,14 +10,24 @@ public class GridManager : MonoBehaviour
     [SerializeField] int width = 25;
     [SerializeField] float cellSize = 1f;
     [SerializeField] LayerMask obstacleLayer;
-    [SerializeField] Unit selectedUnit;
+    [SerializeField] LayerMask gridLayer;
+   
 
-    public Tile GetTile(Vector3 worldPosition)
+    public Tile GetTileWithWorldPosition(Vector3 worldPosition)
     {
         worldPosition -= transform.position;
         int x = (int)(worldPosition.x / cellSize);
         int y = (int)(worldPosition.z / cellSize);
-        if (x < 0 || x > length || y < 0 || y > length)
+        if (x < 0 || x >= length || y < 0 || y >= width)
+            return null;
+        return grid[x, y];
+    }
+
+    public Tile GetTileAtPosition(Vector2Int position)
+    {
+        int x = position.x;
+        int y = position.y;
+        if (x < 0 || x >= length || y < 0 || y >= width)
             return null;
         return grid[x, y];
     }
@@ -30,6 +40,7 @@ public class GridManager : MonoBehaviour
     private void GenerateGrid()
     {
         grid = new Tile[length, width];
+        RaycastHit hit;
         for (int y = 0; y < width; ++y)
         {
             for (int x = 0; x < length; ++x)
@@ -37,30 +48,43 @@ public class GridManager : MonoBehaviour
                 Tile tile = new Tile();
                 tile.SetPos(x, y);
                 Vector3 tilePos = GetTileWorldPosition(x, y);
+                //elevation
+                Ray ray = new Ray(tilePos + Vector3.up * 100f, Vector3.down);
+                if (Physics.Raycast(ray, out hit, float.MaxValue, gridLayer))
+                {
+                    tile.SetElevation(hit.point.y);
+                    tilePos.y = hit.point.y;
+                }
+                //passable
                 bool passable = !Physics.CheckBox(tilePos, Vector3.one / 2 * cellSize, Quaternion.identity, obstacleLayer);
-                tile.Passable = passable;
-                tile.WorldPosition = tilePos;
+                tile.SetPassable(passable);
+                tile.SetWorldPosition(tilePos);
                 grid[x, y] = tile;
                 
             }
         }
     }
 
-    Vector3 GetTileWorldPosition(int x, int y)
+    Vector3 GetTileWorldPosition(int x, int y, float elevation = 0f)
     {
-        return new Vector3(transform.position.x + (x * cellSize), 0f, transform.position.z + (y * cellSize));
+        return new Vector3(transform.position.x + (x * cellSize), elevation, transform.position.z + (y * cellSize));
     }
 
     private void OnDrawGizmos()
     {
-        if (grid == null) return;
+        //if (grid == null) return;
 
         for (int y = 0; y < width; ++y)
         {
             for (int x = 0; x < length; ++x)
             {
                 Vector3 pos = GetTileWorldPosition(x, y);
-                Gizmos.color = grid[x, y].Passable ? Color.white : Color.red;
+                if (grid != null)
+                {
+                    pos = grid[x, y].WorldPosition;
+                    Gizmos.color = grid[x, y].Passable ? Color.white : Color.red;
+                }
+                    
                 Gizmos.DrawWireCube(pos, new Vector3(cellSize, 0, cellSize));
             }
         }
