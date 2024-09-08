@@ -107,10 +107,10 @@ public class PathFinding : MonoBehaviour
     {
         int dstX = Mathf.Abs(a.Position.x - b.Position.x);
         int dstY = Mathf.Abs(a.Position.y - b.Position.y);
-        //int max = Mathf.Max(dstX, dstY);
-        //int min = Mathf.Min(dstX, dstY);
-
-        //return min * 14 + 10 * (max - min);
-        return dstX + dstY;
+        // 对角线距离：每次对角线移动的代价为 14（基于 √2 约为 1.414 的简化）
+        if (dstX > dstY)
+            return 14 * dstY + 10 * (dstX - dstY);  // 水平方向更多
+        else
+            return 14 * dstX + 10 * (dstY - dstX);  // 垂直方向更多
     }
 }
