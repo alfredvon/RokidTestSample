@@ -8,6 +8,7 @@ public class Tile
     public bool Passable { get; private set; }
     public Vector3 WorldPosition { get; private set; }
     public float Elevation { get; private set; }
+    public GameObject QuadObejct { get; private set; }
 
     public Tile parentTile;  // ÓÃÓÚ×·×ÙÂ·¾¶
 
@@ -43,7 +44,8 @@ public class Tile
     public void PlaceUnit(Unit unit)
     {
         unitOnTile = unit;
-        unit.gameObject.transform.position = WorldPosition;
+        unitOnTile.SetCurrentTile(this);
+        //unit.gameObject.transform.position = WorldPosition;
     }
 
     public void RemoveUnit()
@@ -54,5 +56,10 @@ public class Tile
     public bool IsWalkable()
     {
         return Passable && !HasUnit();
+    }
+
+    public void SetQuadObject(GameObject quad)
+    { 
+        QuadObejct = quad;
     }
 }

@@ -11,7 +11,9 @@ public class GridManager : MonoBehaviour
     [SerializeField] float cellSize = 1f;
     [SerializeField] LayerMask obstacleLayer;
     [SerializeField] LayerMask gridLayer;
-   
+    [SerializeField] GameObject tilePrefab;
+    [SerializeField] GameObject tileRoot;
+
 
     public Tile GetTileWithWorldPosition(Vector3 worldPosition)
     {
@@ -59,6 +61,8 @@ public class GridManager : MonoBehaviour
                 bool passable = !Physics.CheckBox(tilePos, Vector3.one / 2 * cellSize, Quaternion.identity, obstacleLayer);
                 tile.SetPassable(passable);
                 tile.SetWorldPosition(tilePos);
+                GameObject tileObject = Instantiate(tilePrefab, tilePos + tilePrefab.transform.position, tilePrefab.transform.rotation, tileRoot.transform);
+                tile.SetQuadObject(tileObject);
                 grid[x, y] = tile;
                 
             }
@@ -74,20 +78,20 @@ public class GridManager : MonoBehaviour
     {
         //if (grid == null) return;
 
-        for (int y = 0; y < width; ++y)
-        {
-            for (int x = 0; x < length; ++x)
-            {
-                Vector3 pos = GetTileWorldPosition(x, y);
-                if (grid != null)
-                {
-                    pos = grid[x, y].WorldPosition;
-                    Gizmos.color = grid[x, y].Passable ? Color.white : Color.red;
-                }
+        //for (int y = 0; y < width; ++y)
+        //{
+        //    for (int x = 0; x < length; ++x)
+        //    {
+        //        Vector3 pos = GetTileWorldPosition(x, y);
+        //        if (grid != null)
+        //        {
+        //            pos = grid[x, y].WorldPosition;
+        //            Gizmos.color = grid[x, y].Passable ? Color.white : Color.red;
+        //        }
                     
-                Gizmos.DrawWireCube(pos, new Vector3(cellSize, 0, cellSize));
-            }
-        }
+        //        Gizmos.DrawWireCube(pos, new Vector3(cellSize, 0, cellSize));
+        //    }
+        //}
     }
 
 }

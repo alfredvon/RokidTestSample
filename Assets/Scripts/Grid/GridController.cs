@@ -7,7 +7,7 @@ public class GridController : MonoBehaviour
 {
     [SerializeField] GridManager targetGrid;
     [SerializeField] LayerMask terrainLayerMask;
-    [SerializeField] Unit placeUnit;
+    [SerializeField] Unit selectedUnit;
 
 
     PathFinding pathFinding;
@@ -16,23 +16,19 @@ public class GridController : MonoBehaviour
     private void Start()
     {
         pathFinding = targetGrid.GetComponent<PathFinding>();
+        //place unit
+        if (selectedUnit != null)
+        {
+            Tile tile = targetGrid.GetTileWithWorldPosition(selectedUnit.transform.position);
+            tile?.PlaceUnit(selectedUnit);
+        }
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        { 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, float.MaxValue, terrainLayerMask))
-            {
-                Tile tile = targetGrid.GetTileWithWorldPosition(hit.point);
-                tile?.PlaceUnit(placeUnit);
-            }
-        }
-        else if (Input.GetMouseButtonDown(1)) 
+        if (Input.GetMouseButtonDown(0) && selectedUnit != null) 
         {
-            Tile tileStart = targetGrid.GetTileWithWorldPosition(placeUnit.transform.position);
+            Tile tileStart = selectedUnit.CurrentTile;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, float.MaxValue, terrainLayerMask))
@@ -41,6 +37,7 @@ public class GridController : MonoBehaviour
                 if (tileEnd != null && tileStart != null) 
                 {
                     path = pathFinding.FindPath(tileStart.Position, tileEnd.Position);
+                    selectedUnit.Move(path);
                 }
             }
         }
