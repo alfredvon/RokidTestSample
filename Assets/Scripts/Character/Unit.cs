@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,24 @@ public class Unit : MonoBehaviour
     [SerializeField] float moveSpeed = 1f;
 
     public Tile CurrentTile { get; private set; }
+    public bool IsMoving { get; private set; }
 
     List<Tile> movePath;
+
+    private void Start()
+    {
+        Init();
+    }
+
+    private void Init()
+    {
+        Tile tile = GridManager.Instance.GetTileWithWorldPosition(transform.position);
+        if (tile != null) 
+        {
+            tile.PlaceUnit(this,true);
+        }
+    }
+
     public void SetCurrentTile(Tile currentTile)
     {
         CurrentTile = currentTile;
@@ -19,8 +36,9 @@ public class Unit : MonoBehaviour
 
     public void Move(List<Tile> path)
     {
-        if (movePath == null) 
+        if (IsMoving == false && movePath == null) 
         {
+            IsMoving = true;
             movePath = path;
             animator?.StartMoving();
             RotateUnit(movePath[0].WorldPosition);
@@ -51,6 +69,7 @@ public class Unit : MonoBehaviour
                     CurrentTile = nextTile;
                     CurrentTile.PlaceUnit(this);
                     animator?.StopMoving();
+                    IsMoving = false;
                 }
                 else
                     RotateUnit(movePath[0].WorldPosition);

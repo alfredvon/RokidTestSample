@@ -12,6 +12,8 @@ public class GridController : MonoBehaviour
 
     PathFinding pathFinding;
     List<Tile> path;
+
+    //Vector3 hitTest;
     
     private void Start()
     {
@@ -26,18 +28,29 @@ public class GridController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && selectedUnit != null) 
+        if (Input.GetMouseButtonDown(0)) 
         {
-            Tile tileStart = selectedUnit.CurrentTile;
+            //Tile tileStart = selectedUnit.CurrentTile;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, float.MaxValue, terrainLayerMask))
             {
-                Tile tileEnd = targetGrid.GetTileWithWorldPosition(hit.point);
-                if (tileEnd != null && tileStart != null) 
+                //hitTest = hit.point;
+                //Debug.Log(hitTest);
+                Tile selectTile = targetGrid.GetTileWithWorldPosition(hit.point);
+                if (selectTile != null) 
                 {
-                    path = pathFinding.FindPath(tileStart.Position, tileEnd.Position);
-                    selectedUnit.Move(path);
+                    if (selectTile.HasUnit())
+                    {
+                        selectedUnit = selectTile.GetUnit();
+                    }
+                    else if (selectTile.IsWalkable() && selectedUnit != null && selectedUnit.IsMoving == false)
+                    {
+                        Tile tileStart = selectedUnit.CurrentTile;
+                        path = pathFinding.FindPath(tileStart.Position, selectTile.Position);
+                        selectedUnit.Move(path);
+                    }
+                   
                 }
             }
         }
@@ -45,6 +58,7 @@ public class GridController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        //Gizmos.DrawCube(hitTest, Vector3.one);
         if (path == null || path.Count == 0) return;
         for (int i = 0; i < path.Count - 1; i++)
         {

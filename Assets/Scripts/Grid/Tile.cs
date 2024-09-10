@@ -41,11 +41,17 @@ public class Tile
         return unitOnTile != null;
     }
 
-    public void PlaceUnit(Unit unit)
+    public Unit GetUnit() 
+    {
+        return unitOnTile;
+    }
+
+    public void PlaceUnit(Unit unit, bool syncPosotion = false)
     {
         unitOnTile = unit;
         unitOnTile.SetCurrentTile(this);
-        //unit.gameObject.transform.position = WorldPosition;
+        if (syncPosotion)
+            unit.gameObject.transform.position = WorldPosition;
     }
 
     public void RemoveUnit()

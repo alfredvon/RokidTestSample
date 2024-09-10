@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridManager : MonoBehaviour
+public class GridManager : Singleton<GridManager>
 {
     Tile[,] grid;
     [SerializeField] int length = 25;
@@ -18,8 +18,9 @@ public class GridManager : MonoBehaviour
     public Tile GetTileWithWorldPosition(Vector3 worldPosition)
     {
         worldPosition -= transform.position;
-        int x = (int)(worldPosition.x / cellSize);
-        int y = (int)(worldPosition.z / cellSize);
+        float half = cellSize / 2;
+        int x = (int)((worldPosition.x + half) / cellSize);
+        int y = (int)((worldPosition.z + half) / cellSize);
         if (x < 0 || x >= length || y < 0 || y >= width)
             return null;
         return grid[x, y];
@@ -34,9 +35,15 @@ public class GridManager : MonoBehaviour
         return grid[x, y];
     }
 
+    protected override void Awake()
+    {
+        base.Awake();
+        GenerateGrid();
+    }
+
     private void Start()
     {
-        GenerateGrid();
+        //GenerateGrid();
     }
 
     private void GenerateGrid()
@@ -78,20 +85,20 @@ public class GridManager : MonoBehaviour
     {
         //if (grid == null) return;
 
-        //for (int y = 0; y < width; ++y)
-        //{
-        //    for (int x = 0; x < length; ++x)
-        //    {
-        //        Vector3 pos = GetTileWorldPosition(x, y);
-        //        if (grid != null)
-        //        {
-        //            pos = grid[x, y].WorldPosition;
-        //            Gizmos.color = grid[x, y].Passable ? Color.white : Color.red;
-        //        }
-                    
-        //        Gizmos.DrawWireCube(pos, new Vector3(cellSize, 0, cellSize));
-        //    }
-        //}
+        for (int y = 0; y < width; ++y)
+        {
+            for (int x = 0; x < length; ++x)
+            {
+                Vector3 pos = GetTileWorldPosition(x, y);
+                if (grid != null)
+                {
+                    pos = grid[x, y].WorldPosition;
+                    Gizmos.color = grid[x, y].Passable ? Color.white : Color.red;
+                }
+
+                Gizmos.DrawWireCube(pos, new Vector3(cellSize, 0, cellSize));
+            }
+        }
     }
 
 }
