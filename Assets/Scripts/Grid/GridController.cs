@@ -5,18 +5,18 @@ using UnityEngine.InputSystem.HID;
 
 public class GridController : MonoBehaviour
 {
-    [SerializeField] GridManager targetGrid;
     [SerializeField] LayerMask terrainLayerMask;
     [SerializeField] Unit selectedUnit;
 
-
+    GridManager targetGrid;
     PathFinding pathFinding;
-    List<Tile> path;
+    List<Tile> tempTiles;
 
     //Vector3 hitTest;
-    
+
     private void Start()
     {
+        targetGrid = GridManager.Instance;
         pathFinding = targetGrid.GetComponent<PathFinding>();
         //place unit
         if (selectedUnit != null)
@@ -42,13 +42,44 @@ public class GridController : MonoBehaviour
                 {
                     if (selectTile.HasUnit())
                     {
+                        if (selectedUnit != null)
+                        {
+                            targetGrid.ShowMovableTiles(selectedUnit.GetMovableTiles(), false);
+                        }
                         selectedUnit = selectTile.GetUnit();
+
+                        if (selectedUnit.GetCharacter().CurrentState == CharacterState.ReadyForAttack)
+                        {
+                            tempTiles = pathFinding.GetAttackableTiles(selectedUnit.CurrentTile.Position, selectedUnit.GetCharacter().AttackRange);
+                            selectedUnit.SetAttackableTiles(tempTiles);
+                            targetGrid.ShowMovableTiles(tempTiles, true);
+                        }
+                        else
+                        {
+                            tempTiles = pathFinding.GetMovableTiles(selectedUnit.CurrentTile.Position, selectedUnit.GetMovePoints());
+                            selectedUnit.SetMovableTiles(tempTiles);
+                            targetGrid.ShowMovableTiles(tempTiles, true);
+                        }
+                        
                     }
-                    else if (selectTile.IsWalkable() && selectedUnit != null && selectedUnit.IsMoving == false)
+                    else if (selectedUnit != null)
                     {
-                        Tile tileStart = selectedUnit.CurrentTile;
-                        path = pathFinding.FindPath(tileStart.Position, selectTile.Position);
-                        selectedUnit.Move(path);
+                        CharacterState characterState = selectedUnit.GetCharacter().CurrentState;
+                        if (characterState == CharacterState.Idle)
+                        {
+                            if (selectTile.IsMovable() && selectedUnit.IsMoving == false && selectedUnit.IsInMovableTiles(selectTile))
+                            {
+                                Tile tileStart = selectedUnit.CurrentTile;
+                                tempTiles = pathFinding.FindPath(tileStart.Position, selectTile.Position);
+                                selectedUnit.Move(tempTiles);
+                            }
+                        }
+                        else if (characterState == CharacterState.ReadyForAttack)
+                        {
+                            if (selectedUnit.IsInAttackableTiles(selectTile))
+                                selectedUnit.Attack(selectTile);
+                        }
+
                     }
                    
                 }
@@ -59,11 +90,11 @@ public class GridController : MonoBehaviour
     private void OnDrawGizmos()
     {
         //Gizmos.DrawCube(hitTest, Vector3.one);
-        if (path == null || path.Count == 0) return;
-        for (int i = 0; i < path.Count - 1; i++)
+        if (tempTiles == null || tempTiles.Count == 0) return;
+        for (int i = 0; i < tempTiles.Count - 1; i++)
         {
             Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(path[i].WorldPosition, path[i + 1].WorldPosition);
+            Gizmos.DrawLine(tempTiles[i].WorldPosition, tempTiles[i + 1].WorldPosition);
         }
     }
 }

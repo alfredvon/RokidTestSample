@@ -2,20 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile
+public class Tile : MonoBehaviour
 {
     public Vector2Int Position { get; private set; }
     public bool Passable { get; private set; }
     public Vector3 WorldPosition { get; private set; }
     public float Elevation { get; private set; }
-    public GameObject QuadObejct { get; private set; }
+    public GameObject QuadObejct;
 
-    public Tile parentTile;  // 用于追踪路径
+    [HideInInspector] public Tile parentTile;  // 用于追踪路径
 
-    public int gCost;  // 从起点到当前节点的实际代价
-    public int hCost;  // 从当前节点到目标的预估代价
+    [HideInInspector] public int gCost;  // 从起点到当前节点的实际代价
+    [HideInInspector] public int hCost;  // 从当前节点到目标的预估代价
 
-    public int fCost => gCost + hCost;  // fCost = gCost + hCost
+    [HideInInspector] public int fCost => gCost + hCost;  // fCost = gCost + hCost
+
+    [HideInInspector] public int moveCost = 1;
 
     private Unit unitOnTile;
 
@@ -59,13 +61,13 @@ public class Tile
         unitOnTile = null;
     }
 
-    public bool IsWalkable()
+    public bool IsMovable()
     {
         return Passable && !HasUnit();
     }
 
-    public void SetQuadObject(GameObject quad)
-    { 
-        QuadObejct = quad;
+    public void ShowHighlight(bool isHighlight)
+    {
+        QuadObejct?.SetActive(isHighlight);
     }
 }

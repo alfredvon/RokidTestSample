@@ -7,8 +7,6 @@ public class UnitAnimator : MonoBehaviour
     public static readonly int bRun = Animator.StringToHash("Run");
     public static readonly int bAttack = Animator.StringToHash("Attack");
 
-
-    [SerializeField] float attackInterval = 1f;
     [SerializeField] bool move;
     [SerializeField] bool attack;
 
@@ -35,12 +33,10 @@ public class UnitAnimator : MonoBehaviour
     { 
         attack = true;
         animator.SetBool(bAttack, attack);
-        StartCoroutine(StopAttackCoroutine());
     }
 
-    IEnumerator StopAttackCoroutine()
-    { 
-        yield return new WaitForSeconds(attackInterval);
+    public void StopAttack()
+    {
         attack = false;
         animator.SetBool(bAttack, attack);
     }

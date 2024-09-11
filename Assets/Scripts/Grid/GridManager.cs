@@ -15,6 +15,17 @@ public class GridManager : Singleton<GridManager>
     [SerializeField] GameObject tileRoot;
 
 
+    protected override void Awake()
+    {
+        base.Awake();
+        GenerateGrid();
+    }
+
+    private void Start()
+    {
+        //GenerateGrid();
+    }
+
     public Tile GetTileWithWorldPosition(Vector3 worldPosition)
     {
         worldPosition -= transform.position;
@@ -35,16 +46,26 @@ public class GridManager : Singleton<GridManager>
         return grid[x, y];
     }
 
-    protected override void Awake()
+    public void ShowMovableTiles(List<Tile> tiles, bool isShow)
     {
-        base.Awake();
-        GenerateGrid();
+        if (tiles == null)
+            return;
+        foreach (Tile tile in tiles) 
+        {
+            tile.ShowHighlight(isShow);
+        }
     }
 
-    private void Start()
+    public void ShowAttackableTiles(List<Tile> tiles, bool isShow)
     {
-        //GenerateGrid();
+        if (tiles == null)
+            return;
+        foreach (Tile tile in tiles)
+        {
+            tile.ShowHighlight(isShow);
+        }
     }
+
 
     private void GenerateGrid()
     {
@@ -54,22 +75,23 @@ public class GridManager : Singleton<GridManager>
         {
             for (int x = 0; x < length; ++x)
             {
-                Tile tile = new Tile();
-                tile.SetPos(x, y);
                 Vector3 tilePos = GetTileWorldPosition(x, y);
                 //elevation
                 Ray ray = new Ray(tilePos + Vector3.up * 100f, Vector3.down);
                 if (Physics.Raycast(ray, out hit, float.MaxValue, gridLayer))
                 {
-                    tile.SetElevation(hit.point.y);
                     tilePos.y = hit.point.y;
                 }
+                GameObject tileObject = Instantiate(tilePrefab, tilePos, Quaternion.identity, tileRoot.transform);
+                Tile tile = tileObject.GetComponent<Tile>();
+                tile.SetPos(x, y);
+                tile.SetElevation(hit.point.y);
                 //passable
                 bool passable = !Physics.CheckBox(tilePos, Vector3.one / 2 * cellSize, Quaternion.identity, obstacleLayer);
                 tile.SetPassable(passable);
                 tile.SetWorldPosition(tilePos);
-                GameObject tileObject = Instantiate(tilePrefab, tilePos + tilePrefab.transform.position, tilePrefab.transform.rotation, tileRoot.transform);
-                tile.SetQuadObject(tileObject);
+                tile.ShowHighlight(false);
+                
                 grid[x, y] = tile;
                 
             }

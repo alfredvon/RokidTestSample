@@ -1,10 +1,10 @@
-Shader "Custom/QuadOutlineHideInside"
+Shader "Custom/QuadOutline"
 {
     Properties
     {
+        _Color ("Color", Color) = (0,0,0,1)  // 颜色
         _OutlineColor ("Outline Color", Color) = (0,0,0,1)  // 描边颜色
         _OutlineWidth ("Outline Width", Range(0.001, 0.1)) = 0.02  // 描边宽度
-        _MainTex ("Main Texture", 2D) = "white" {}  // 主纹理（可选）
     }
     SubShader
     {
@@ -35,9 +35,9 @@ Shader "Custom/QuadOutlineHideInside"
                 float2 uv : TEXCOORD0;
             };
 
-            sampler2D _MainTex;
             uniform float _OutlineWidth;
             uniform fixed4 _OutlineColor;
+            uniform fixed4 _Color;
 
             v2f vert(appdata v)
             {
@@ -53,7 +53,7 @@ Shader "Custom/QuadOutlineHideInside"
                 float distToEdge = min(i.uv.x, min(i.uv.y, min(1.0 - i.uv.x, 1.0 - i.uv.y)));
                 
                 if (distToEdge > _OutlineWidth)
-                    discard;
+                    return _Color;
                 // // 如果在描边范围内，显示描边颜色
                 // if (distToEdge < _OutlineWidth)
                 // {

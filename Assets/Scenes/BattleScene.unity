@@ -508,6 +508,7 @@ GameObject:
   m_Component:
   - component: {fileID: 439797609}
   - component: {fileID: 439797610}
+  - component: {fileID: 439797611}
   m_Layer: 0
   m_Name: GameUnit (1)
   m_TagString: Untagged
@@ -545,6 +546,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1546537970}
   moveSpeed: 3
+--- !u!114 &439797611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439797608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc86cda311b2cf4fa5a2beba2f450ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Skel
+  MovePoints: 5
 --- !u!1 &490803405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,6 +1064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1712081748}
   - component: {fileID: 1712081747}
+  - component: {fileID: 1712081749}
   m_Layer: 0
   m_Name: GameUnit
   m_TagString: Untagged
@@ -1086,6 +1102,20 @@ Transform:
   - {fileID: 1019680785}
   m_Father: {fileID: 25089660}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1712081749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712081746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc86cda311b2cf4fa5a2beba2f450ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Knight
+  MovePoints: 5
 --- !u!1 &1795349441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1251,11 +1281,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3039277dc1b9fd48adb0ed2e8ef7499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetGrid: {fileID: 148711501}
   terrainLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  selectedUnit: {fileID: 1712081747}
+  selectedUnit: {fileID: 0}
 --- !u!4 &2071425631
 Transform:
   m_ObjectHideFlags: 0
