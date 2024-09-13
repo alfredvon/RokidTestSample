@@ -6,25 +6,19 @@ using UnityEngine.InputSystem.HID;
 public class GridController : MonoBehaviour
 {
     [SerializeField] LayerMask terrainLayerMask;
-    [SerializeField] Unit selectedUnit;
 
     GridManager targetGrid;
-    PathFinding pathFinding;
-    List<Tile> tempTiles;
+    GameManager gameManager;
 
-    //Vector3 hitTest;
+    List<Tile> tempTiles;
 
     private void Start()
     {
         targetGrid = GridManager.Instance;
-        pathFinding = targetGrid.GetComponent<PathFinding>();
-        //place unit
-        if (selectedUnit != null)
-        {
-            Tile tile = targetGrid.GetTileWithWorldPosition(selectedUnit.transform.position);
-            tile?.PlaceUnit(selectedUnit);
-        }
+        gameManager = GameManager.Instance;
     }
+
+
 
     private void Update()
     {
@@ -38,51 +32,10 @@ public class GridController : MonoBehaviour
                 //hitTest = hit.point;
                 //Debug.Log(hitTest);
                 Tile selectTile = targetGrid.GetTileWithWorldPosition(hit.point);
-                if (selectTile != null) 
-                {
-                    if (selectTile.HasUnit())
-                    {
-                        if (selectedUnit != null)
-                        {
-                            targetGrid.ShowMovableTiles(selectedUnit.GetMovableTiles(), false);
-                        }
-                        selectedUnit = selectTile.GetUnit();
+                if (selectTile == null)
+                    return;
 
-                        if (selectedUnit.GetCharacter().CurrentState == CharacterState.ReadyForAttack)
-                        {
-                            tempTiles = pathFinding.GetAttackableTiles(selectedUnit.CurrentTile.Position, selectedUnit.GetCharacter().AttackRange);
-                            selectedUnit.SetAttackableTiles(tempTiles);
-                            targetGrid.ShowMovableTiles(tempTiles, true);
-                        }
-                        else
-                        {
-                            tempTiles = pathFinding.GetMovableTiles(selectedUnit.CurrentTile.Position, selectedUnit.GetMovePoints());
-                            selectedUnit.SetMovableTiles(tempTiles);
-                            targetGrid.ShowMovableTiles(tempTiles, true);
-                        }
-                        
-                    }
-                    else if (selectedUnit != null)
-                    {
-                        CharacterState characterState = selectedUnit.GetCharacter().CurrentState;
-                        if (characterState == CharacterState.Idle)
-                        {
-                            if (selectTile.IsMovable() && selectedUnit.IsMoving == false && selectedUnit.IsInMovableTiles(selectTile))
-                            {
-                                Tile tileStart = selectedUnit.CurrentTile;
-                                tempTiles = pathFinding.FindPath(tileStart.Position, selectTile.Position);
-                                selectedUnit.Move(tempTiles);
-                            }
-                        }
-                        else if (characterState == CharacterState.ReadyForAttack)
-                        {
-                            if (selectedUnit.IsInAttackableTiles(selectTile))
-                                selectedUnit.Attack(selectTile);
-                        }
-
-                    }
-                   
-                }
+                gameManager.OnClickTile(selectTile);
             }
         }
     }

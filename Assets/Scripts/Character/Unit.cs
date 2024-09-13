@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 
 public class Unit : MonoBehaviour
 {
@@ -30,14 +30,14 @@ public class Unit : MonoBehaviour
         Tile tile = GridManager.Instance.GetTileWithWorldPosition(transform.position);
         if (tile != null) 
         {
-            tile.PlaceUnit(this,true);
+            tile.PlaceUnit(this, true);
         }
         character = GetComponent<Character>();
     }
 
-    public void SetCurrentTile(Tile currentTile)
+    public void SetCurrentTile(Tile current_tile)
     {
-        CurrentTile = currentTile;
+        CurrentTile = current_tile;
     }
 
     public void SetMovableTiles(List<Tile> tiles)
@@ -69,6 +69,11 @@ public class Unit : MonoBehaviour
         attackableTiles = tiles;
     }
 
+    public List<Tile> GetAttackableTiles()
+    { 
+        return attackableTiles;    
+    }
+
     public bool IsInAttackableTiles(Tile tile)
     {
         if (attackableTiles == null)
@@ -90,7 +95,7 @@ public class Unit : MonoBehaviour
     {
         if (IsMoving == false && movePath == null) 
         {
-            character.SetCharacterState(CharacterState.Move);
+            ChangeCharacterState(CharacterState.Move);
             IsMoving = true;
             movePath = path;
             animator?.StartMoving();
@@ -98,12 +103,13 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void Attack(Tile targetTile)
+    public void Attack(Tile target_tile)
     {
         if (IsAttacking == false)
         {
+            ChangeCharacterState(CharacterState.Attack);
             IsAttacking = true;
-            RotateUnit(targetTile.WorldPosition);
+            RotateUnit(target_tile.WorldPosition);
             animator?.Attack();
             StartCoroutine(StopAttackCoroutine());
         }
@@ -114,7 +120,7 @@ public class Unit : MonoBehaviour
         yield return new WaitForSeconds(character.AttackInterval);
         IsAttacking = false;
         animator?.StopAttack();
-        character.SetCharacterState(CharacterState.Idle);
+        ChangeCharacterState(CharacterState.AttackEnd);
     }
 
     public Character GetCharacter()
@@ -122,11 +128,24 @@ public class Unit : MonoBehaviour
         return character;
     }
 
+    public bool IsEqual(Unit other_unit)
+    { 
+        if (other_unit == null)
+            return false;
+        return character.ID == other_unit.GetCharacter().ID;
+    }
+
     private void RotateUnit(Vector3 target)
     {
         Vector3 direction = (target - transform.position).normalized;
         direction.y = 0f;
         transform.rotation = Quaternion.LookRotation(direction);
+    }
+
+    private void ChangeCharacterState(CharacterState state)
+    {
+        character.SetCharacterState(state);
+        GameManager.Instance.UnitStateNotify(this, state);
     }
 
     private void Update()
@@ -147,11 +166,11 @@ public class Unit : MonoBehaviour
                     CurrentTile = nextTile;
                     CurrentTile.PlaceUnit(this);
                     foreach (Tile tile in movableTiles)
-                        tile.ShowHighlight(false);
+                        tile.ShowMoveHighlight(false);
                     movableTiles = null;
                     animator?.StopMoving();
                     IsMoving = false;
-                    character.SetCharacterState(CharacterState.ReadyForAttack);
+                    ChangeCharacterState(CharacterState.ReadyForAttack);
                 }
                 else
                     RotateUnit(movePath[0].WorldPosition);

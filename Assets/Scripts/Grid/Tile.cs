@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
+
+    public Material AttackHighlightMaterial;
+    public Material MoveHightlightMateiral;
     public Vector2Int Position { get; private set; }
     public bool Passable { get; private set; }
     public Vector3 WorldPosition { get; private set; }
@@ -19,7 +22,7 @@ public class Tile : MonoBehaviour
 
     [HideInInspector] public int moveCost = 1;
 
-    private Unit unitOnTile;
+    public Unit unitOnTile;
 
     public void SetPos(int x, int y)
     {
@@ -48,11 +51,11 @@ public class Tile : MonoBehaviour
         return unitOnTile;
     }
 
-    public void PlaceUnit(Unit unit, bool syncPosotion = false)
+    public void PlaceUnit(Unit unit, bool sync_posotion = false)
     {
         unitOnTile = unit;
         unitOnTile.SetCurrentTile(this);
-        if (syncPosotion)
+        if (sync_posotion)
             unit.gameObject.transform.position = WorldPosition;
     }
 
@@ -66,8 +69,17 @@ public class Tile : MonoBehaviour
         return Passable && !HasUnit();
     }
 
-    public void ShowHighlight(bool isHighlight)
+    public void ShowMoveHighlight(bool is_highlight)
     {
-        QuadObejct?.SetActive(isHighlight);
+        if (is_highlight == true)
+            QuadObejct.GetComponent<Renderer>().sharedMaterial = MoveHightlightMateiral;
+        QuadObejct?.SetActive(is_highlight);
+    }
+
+    public void ShowAttackHighlight(bool is_highlight)
+    {
+        if (is_highlight == true)
+            QuadObejct.GetComponent<Renderer>().sharedMaterial = AttackHighlightMaterial;
+        QuadObejct?.SetActive(is_highlight);
     }
 }

@@ -12,7 +12,7 @@ public class PathFinding : MonoBehaviour
             gridManager = GridManager.Instance;
     }
 
-    public List<Tile> GetMovableTiles(Vector2Int start, float movePoints)
+    public List<Tile> GetMovableTiles(Vector2Int start, float move_points)
     {
         Tile startTile = gridManager.GetTileAtPosition(start);
         List<Tile> movableTiles = new List<Tile>();
@@ -20,7 +20,7 @@ public class PathFinding : MonoBehaviour
         HashSet<Tile> visited = new HashSet<Tile>();
 
         // 初始化队列，从起点开始
-        queue.Enqueue((startTile, movePoints));
+        queue.Enqueue((startTile, move_points));
         visited.Add(startTile);
 
         while (queue.Count > 0)
@@ -52,25 +52,25 @@ public class PathFinding : MonoBehaviour
         return movableTiles;
     }
 
-    public List<Tile> GetAttackableTiles(Vector2Int start, int attackRange, bool excludeSelf = true)
+    public List<Tile> GetAttackableTiles(Vector2Int start, int attack_range, bool exclude_self = true)
     {
         List<Tile> attackableTiles = new List<Tile>();
 
         // 遍历所有在攻击范围内的格子
-        for (int x = -attackRange; x <= attackRange; x++)
+        for (int x = -attack_range; x <= attack_range; x++)
         {
-            for (int y = -attackRange; y <= attackRange; y++)
+            for (int y = -attack_range; y <= attack_range; y++)
             {
-                if (excludeSelf == false && x == 0 && y == 0)
+                if (exclude_self == false && x == 0 && y == 0)
                     continue;
 
                 Vector2Int pos = new Vector2Int(start.x + x, start.y + y);
 
                 // 使用曼哈顿距离判断是否在攻击范围内
-                if (Mathf.Abs(x) + Mathf.Abs(y) <= attackRange)
+                if (Mathf.Abs(x) + Mathf.Abs(y) <= attack_range)
                 {
                     Tile tile = gridManager.GetTileAtPosition(pos);
-                    if (tile == null || !tile.IsMovable())
+                    if (tile == null || !tile.Passable)
                         continue;
                     attackableTiles.Add(tile);
                 }
@@ -135,12 +135,12 @@ public class PathFinding : MonoBehaviour
     }
 
     // 回溯找到的路径
-    List<Tile> RetracePath(Tile startTile, Tile endTile)
+    List<Tile> RetracePath(Tile start_tile, Tile end_tile)
     {
         List<Tile> path = new List<Tile>();
-        Tile currentTile = endTile;
+        Tile currentTile = end_tile;
 
-        while (currentTile != startTile)
+        while (currentTile != start_tile)
         {
             path.Add(currentTile);
             currentTile = currentTile.parentTile;
@@ -150,7 +150,7 @@ public class PathFinding : MonoBehaviour
     }
 
     // 获取邻居节点
-    List<Tile> GetNeighbors(Tile tile, bool use4Dir = false)
+    List<Tile> GetNeighbors(Tile tile, bool use_4_dir = false)
     {
         List<Tile> neighbors = new List<Tile>();
         Vector2Int[] directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right,
@@ -159,7 +159,7 @@ public class PathFinding : MonoBehaviour
         new Vector2Int(-1, -1), // 左下
         new Vector2Int(1, -1)   // 右下
         };
-        if (use4Dir)
+        if (use_4_dir)
         {
             directions = new Vector2Int[] { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
         }

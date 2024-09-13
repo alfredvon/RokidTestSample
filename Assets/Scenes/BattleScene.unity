@@ -347,6 +347,7 @@ MonoBehaviour:
     m_Bits: 128
   tilePrefab: {fileID: 1537506617423917624, guid: 35f3bd91a5cf813458656bad86fa6e00, type: 3}
   tileRoot: {fileID: 124790732}
+  pathFinding: {fileID: 0}
 --- !u!114 &148711502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,7 +526,7 @@ Transform:
   m_GameObject: {fileID: 439797608}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5.78}
+  m_LocalPosition: {x: 2.382, y: 0, z: -6.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -558,8 +559,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc86cda311b2cf4fa5a2beba2f450ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 1
   Name: Skel
   MovePoints: 5
+  AttackRange: 2
+  AttackInterval: 1.5
 --- !u!1 &490803405
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,7 +945,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7c83de6f84f1cd42a6f6c88170e2ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackInterval: 1
   move: 0
   attack: 0
 --- !u!1001 &1191910083
@@ -1114,8 +1117,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc86cda311b2cf4fa5a2beba2f450ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
   Name: Knight
   MovePoints: 5
+  AttackRange: 2
+  AttackInterval: 1.5
 --- !u!1 &1795349441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,6 +1268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2071425631}
   - component: {fileID: 2071425630}
+  - component: {fileID: 2071425632}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1284,7 +1291,6 @@ MonoBehaviour:
   terrainLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  selectedUnit: {fileID: 0}
 --- !u!4 &2071425631
 Transform:
   m_ObjectHideFlags: 0
@@ -1300,6 +1306,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2071425632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071425629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec299cf3ac8e401419075537f7c6be53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridController: {fileID: 0}
 --- !u!1 &2145514265
 GameObject:
   m_ObjectHideFlags: 0

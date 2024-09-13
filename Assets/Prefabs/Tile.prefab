@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72d55fd01d8147d4990b9ca95ca65cf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMaterial: {fileID: 2100000, guid: 703a7a30483003e4a8a6eb4b826e52f3, type: 2}
-  hightlightMaterial: {fileID: 2100000, guid: bf5af0c57b5471c48abd76c055353ac8, type: 2}
+  AttackHighlightMaterial: {fileID: 2100000, guid: 2823ecda7fc1c9e488509d6d3db0c4c1, type: 2}
+  MoveHightlightMateiral: {fileID: 2100000, guid: 703a7a30483003e4a8a6eb4b826e52f3, type: 2}
   QuadObejct: {fileID: 4521294842246067347}
   parentTile: {fileID: 0}
   gCost: 0

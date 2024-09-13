@@ -14,6 +14,8 @@ public class GridManager : Singleton<GridManager>
     [SerializeField] GameObject tilePrefab;
     [SerializeField] GameObject tileRoot;
 
+    [HideInInspector] public PathFinding pathFinding;
+
 
     protected override void Awake()
     {
@@ -24,14 +26,15 @@ public class GridManager : Singleton<GridManager>
     private void Start()
     {
         //GenerateGrid();
+        pathFinding = GetComponent<PathFinding>();
     }
 
-    public Tile GetTileWithWorldPosition(Vector3 worldPosition)
+    public Tile GetTileWithWorldPosition(Vector3 world_position)
     {
-        worldPosition -= transform.position;
+        world_position -= transform.position;
         float half = cellSize / 2;
-        int x = (int)((worldPosition.x + half) / cellSize);
-        int y = (int)((worldPosition.z + half) / cellSize);
+        int x = (int)((world_position.x + half) / cellSize);
+        int y = (int)((world_position.z + half) / cellSize);
         if (x < 0 || x >= length || y < 0 || y >= width)
             return null;
         return grid[x, y];
@@ -46,24 +49,31 @@ public class GridManager : Singleton<GridManager>
         return grid[x, y];
     }
 
-    public void ShowMovableTiles(List<Tile> tiles, bool isShow)
+    public void ShowMovableTiles(List<Tile> tiles, bool is_show)
     {
         if (tiles == null)
             return;
         foreach (Tile tile in tiles) 
         {
-            tile.ShowHighlight(isShow);
+            tile.ShowMoveHighlight(is_show);
         }
     }
 
-    public void ShowAttackableTiles(List<Tile> tiles, bool isShow)
+    public void ShowAttackableTiles(List<Tile> tiles, bool is_show)
     {
         if (tiles == null)
             return;
         foreach (Tile tile in tiles)
         {
-            tile.ShowHighlight(isShow);
+            tile.ShowAttackHighlight(is_show);
         }
+    }
+
+    public void ShowUnitAttackRange(Unit unit)
+    {
+        List<Tile> tiles = pathFinding.GetAttackableTiles(unit.CurrentTile.Position, unit.GetCharacter().AttackRange);
+        unit.SetAttackableTiles(tiles);
+        ShowAttackableTiles(tiles, true);
     }
 
 
@@ -80,7 +90,8 @@ public class GridManager : Singleton<GridManager>
                 Ray ray = new Ray(tilePos + Vector3.up * 100f, Vector3.down);
                 if (Physics.Raycast(ray, out hit, float.MaxValue, gridLayer))
                 {
-                    tilePos.y = hit.point.y;
+                    if (Mathf.Abs(hit.point.y) > 0.01f)
+                        tilePos.y = hit.point.y;
                 }
                 GameObject tileObject = Instantiate(tilePrefab, tilePos, Quaternion.identity, tileRoot.transform);
                 Tile tile = tileObject.GetComponent<Tile>();
@@ -90,7 +101,7 @@ public class GridManager : Singleton<GridManager>
                 bool passable = !Physics.CheckBox(tilePos, Vector3.one / 2 * cellSize, Quaternion.identity, obstacleLayer);
                 tile.SetPassable(passable);
                 tile.SetWorldPosition(tilePos);
-                tile.ShowHighlight(false);
+                tile.ShowMoveHighlight(false);
                 
                 grid[x, y] = tile;
                 
