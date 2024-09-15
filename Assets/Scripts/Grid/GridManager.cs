@@ -69,14 +69,6 @@ public class GridManager : Singleton<GridManager>
         }
     }
 
-    public void ShowUnitAttackRange(Unit unit)
-    {
-        List<Tile> tiles = pathFinding.GetAttackableTiles(unit.CurrentTile.Position, unit.GetCharacter().AttackRange);
-        unit.SetAttackableTiles(tiles);
-        ShowAttackableTiles(tiles, true);
-    }
-
-
     private void GenerateGrid()
     {
         grid = new Tile[length, width];

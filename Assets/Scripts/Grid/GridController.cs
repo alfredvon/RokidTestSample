@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.HID;
 
 public class GridController : MonoBehaviour
@@ -25,9 +26,10 @@ public class GridController : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) 
         {
             //Tile tileStart = selectedUnit.CurrentTile;
+            bool isOverUI = EventSystem.current.IsPointerOverGameObject();
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, float.MaxValue, terrainLayerMask))
+            if (!isOverUI && Physics.Raycast(ray, out hit, float.MaxValue, terrainLayerMask))
             {
                 //hitTest = hit.point;
                 //Debug.Log(hitTest);

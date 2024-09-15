@@ -61,7 +61,7 @@ public class PathFinding : MonoBehaviour
         {
             for (int y = -attack_range; y <= attack_range; y++)
             {
-                if (exclude_self == false && x == 0 && y == 0)
+                if (exclude_self && x == 0 && y == 0)
                     continue;
 
                 Vector2Int pos = new Vector2Int(start.x + x, start.y + y);

@@ -33,6 +33,8 @@ public class Unit : MonoBehaviour
             tile.PlaceUnit(this, true);
         }
         character = GetComponent<Character>();
+        character.SetParentUnit(this);
+        character.SetCharacterState(CharacterState.Generate);
     }
 
     public void SetCurrentTile(Tile current_tile)
@@ -96,6 +98,7 @@ public class Unit : MonoBehaviour
         if (IsMoving == false && movePath == null) 
         {
             ChangeCharacterState(CharacterState.Move);
+            character.TurnMoveDone = true;
             IsMoving = true;
             movePath = path;
             animator?.StartMoving();
@@ -107,6 +110,7 @@ public class Unit : MonoBehaviour
     {
         if (IsAttacking == false)
         {
+            character.TurnAttackDone = true;
             ChangeCharacterState(CharacterState.Attack);
             IsAttacking = true;
             RotateUnit(target_tile.WorldPosition);
@@ -145,7 +149,6 @@ public class Unit : MonoBehaviour
     private void ChangeCharacterState(CharacterState state)
     {
         character.SetCharacterState(state);
-        GameManager.Instance.UnitStateNotify(this, state);
     }
 
     private void Update()
