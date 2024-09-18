@@ -1,7 +1,5 @@
 {
   "dependencies": {
-    "com.rokid.xr.core": "1.23.6",
-    "com.rokid.xr.unity": "2.4.9",
     "com.unity.ai.navigation": "1.1.5",
     "com.unity.collab-proxy": "2.4.4",
     "com.unity.ide.rider": "3.0.31",
@@ -41,15 +39,9 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
+    "com.unity.modules.xr": "1.0.0",
+	"com.rokid.xr.core": "file:./npm.rokid.com/com.rokid.xr.core",
+	"com.rokid.xr.unity": "file:./npm.rokid.com/com.rokid.xr.unity"
   },
-  "scopedRegistries": [
-    {
-      "name": "rokid",
-      "url": "https://npm.rokid.com/",
-      "scopes": [
-        "com.rokid"
-      ]
-    }
-  ]
+  "scopedRegistries": []
 }

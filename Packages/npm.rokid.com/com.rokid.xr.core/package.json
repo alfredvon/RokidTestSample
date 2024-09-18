@@ -1,0 +1,22 @@
+{
+    "name": "com.rokid.xr.core",
+    "displayName": "Rokid XR Core",
+    "version": "1.23.6",
+    "unity": "2020.3",
+    "author": "Rokid",
+    "description": "Provides rendering and input support for Rokid UXR.",
+    "keywords": [
+        "ar",
+        "xr",
+        "reality",
+        "xreditorsubsystem"
+    ],
+    "dependencies": {
+        "com.unity.xr.management": "4.2.0",
+        "com.unity.xr.legacyinputhelpers": "2.1.10",
+        "com.unity.nuget.newtonsoft-json": "3.0.1"
+    },
+    "samples": [
+        {}
+    ]
+}

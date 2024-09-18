@@ -1,20 +1,19 @@
 {
   "dependencies": {
     "com.rokid.xr.core": {
-      "version": "1.23.6",
+      "version": "file:./npm.rokid.com/com.rokid.xr.core",
       "depth": 0,
-      "source": "registry",
+      "source": "local",
       "dependencies": {
         "com.unity.xr.management": "4.2.0",
         "com.unity.xr.legacyinputhelpers": "2.1.10",
         "com.unity.nuget.newtonsoft-json": "3.0.1"
-      },
-      "url": "https://npm.rokid.com"
+      }
     },
     "com.rokid.xr.unity": {
-      "version": "2.4.9",
+      "version": "file:./npm.rokid.com/com.rokid.xr.unity",
       "depth": 0,
-      "source": "registry",
+      "source": "local",
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0",
@@ -23,8 +22,7 @@
         "com.unity.xr.legacyinputhelpers": "2.1.10",
         "com.unity.nuget.newtonsoft-json": "3.0.1",
         "com.unity.inputsystem": "1.7.0"
-      },
-      "url": "https://npm.rokid.com"
+      }
     },
     "com.unity.ai.navigation": {
       "version": "1.1.5",
