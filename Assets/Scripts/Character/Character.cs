@@ -9,6 +9,8 @@ public class Character : MonoBehaviour
     public int MovePoints = 5;
     public int AttackRange = 2;
     public float AttackInterval = 1.5f;
+    public Int2Val HP = new Int2Val(100, 100);
+    public int Damage = 50;
     //turn resource
     public bool TurnMoveDone = false;
     public bool TurnAttackDone = false;
@@ -29,6 +31,15 @@ public class Character : MonoBehaviour
         TurnAttackDone = false;
         TurnEnd = false;
         CurrentState = CharacterState.Idle;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        HP.current -= damage;
+        if (HP.current <= 0)
+        {
+            SetCharacterState(CharacterState.Death);
+        }
     }
 }
 

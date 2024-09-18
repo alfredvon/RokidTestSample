@@ -116,6 +116,11 @@ public class Unit : MonoBehaviour
             RotateUnit(target_tile.WorldPosition);
             animator?.Attack();
             StartCoroutine(StopAttackCoroutine());
+            //has unit?
+            if (target_tile.HasUnit())
+            {
+                target_tile.GetUnit().TakeDamage(character.Damage);
+            }
         }
     }
 
@@ -137,6 +142,32 @@ public class Unit : MonoBehaviour
         if (other_unit == null)
             return false;
         return character.ID == other_unit.GetCharacter().ID;
+    }
+
+    public void TakeDamage(int damage)
+    { 
+       StartCoroutine(HitCoroutine(damage)); 
+    }
+
+    IEnumerator HitCoroutine(int damage)
+    {
+        //wait for attack animation
+        yield return new WaitForSeconds(.5f);
+        bool hit = false;
+        character.TakeDamage(damage);
+        if (character.CurrentState == CharacterState.Death)
+        {
+            animator.Death();
+        }
+        else
+        {
+            animator.Hit();
+            hit = true;
+        }
+        //wait for hit animation
+        yield return new WaitForSeconds(.5f);
+        if (hit)
+            animator.StopHit();
     }
 
     private void RotateUnit(Vector3 target)
