@@ -19,6 +19,7 @@ public class Unit : MonoBehaviour
     List<Tile> movableTiles;
     List<Tile> attackableTiles;
     Character character;
+    AIController ai;
 
     private void Start()
     {
@@ -35,6 +36,11 @@ public class Unit : MonoBehaviour
         character = GetComponent<Character>();
         character.SetParentUnit(this);
         character.SetCharacterState(CharacterState.Generate);
+        if (character.IsAI == true)
+        {
+            ai = GetComponent<AIController>();
+            ai.SetControlUnit(this);
+        }
     }
 
     public void SetCurrentTile(Tile current_tile)
@@ -88,11 +94,6 @@ public class Unit : MonoBehaviour
         return false;
     }
 
-    public float GetMovePoints()
-    {
-        return character.MovePoints;
-    }
-
     public void Move(List<Tile> path)
     {
         if (IsMoving == false && movePath == null) 
@@ -135,6 +136,11 @@ public class Unit : MonoBehaviour
     public Character GetCharacter()
     {
         return character;
+    }
+
+    public AIController GetAI()
+    {
+        return ai;
     }
 
     public bool IsEqual(Unit other_unit)

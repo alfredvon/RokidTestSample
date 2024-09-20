@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
+    public bool IsAI = false;
     public int ID = 0;
     public string Name = "";
-    public int MovePoints = 5;
-    public int AttackRange = 2;
-    public float AttackInterval = 1.5f;
+    public UnitGroupType Group = UnitGroupType.Player;  //阵营
+    public int Initiative = 0;  //先攻值
+    public int MovePoints = 5;  //移动力
+    public int AttackRange = 2; //普通攻击范围
+    public float AttackInterval = 1.5f; //攻击动作间隔
     public Int2Val HP = new Int2Val(100, 100);
     public int Damage = 50;
     //turn resource
@@ -30,7 +33,16 @@ public class Character : MonoBehaviour
         TurnMoveDone = false;
         TurnAttackDone = false;
         TurnEnd = false;
-        CurrentState = CharacterState.Idle;
+        if (CurrentState != CharacterState.Death)
+            CurrentState = CharacterState.Idle;
+    }
+
+    public void DoTurnEnd()
+    {
+        TurnEnd = true;
+        TurnAttackDone = true;
+        TurnMoveDone = true;
+        SetCharacterState(CharacterState.TurnDone);
     }
 
     public void TakeDamage(int damage)

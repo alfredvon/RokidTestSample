@@ -24,6 +24,24 @@ public class Tile : MonoBehaviour
 
     public Unit unitOnTile;
 
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        Tile other = (Tile)obj;
+
+        
+        return Position == other.Position;
+    }
+
+    public override int GetHashCode()
+    {
+        return Position.GetHashCode();
+    }
+
     public void SetPos(int x, int y)
     {
         Position = new Vector2Int(x, y);

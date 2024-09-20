@@ -16,3 +16,4 @@ Rokid.Unity.XR.csproj
 Rokid.Unity.XR.Editor.csproj
 Rokid.XR.Core.csproj
 Rokid.XR.Core.Editor.csproj
+Assembly-CSharp-Editor.csproj

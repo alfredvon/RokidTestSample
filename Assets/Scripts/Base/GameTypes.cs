@@ -27,3 +27,9 @@ public struct Int2Val
         this.current = current;
     }
 }
+
+public enum UnitGroupType
+{ 
+    Player,
+    Enemy
+}

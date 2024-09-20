@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
@@ -18,7 +19,7 @@ public class GameManager : Singleton<GameManager>
 
     HashSet<int> turnDoneUnitID;
     List<Unit> allUnits;
-
+    int currentActiveIndex;    //当前行动人物在allUnits中的Index
     int turnID;
 
     List<Tile> tempTiles;
@@ -42,6 +43,29 @@ public class GameManager : Singleton<GameManager>
     {
         CurrentSelectedUnit = unit;
     }
+    
+    public bool IsCurrentActiveUnit(int id) 
+    {
+        return allUnits[currentActiveIndex].GetCharacter().ID == id;
+    }
+
+    public List<Unit> GetAllUnitsWithGroup(UnitGroupType group_type)
+    {
+        List<Unit> units = new List<Unit>();
+        foreach (Unit unit in allUnits) 
+        {
+            if (unit.GetCharacter().Group == group_type)
+            {
+                units.Add(unit);
+            }
+        }
+        return units;
+    }
+
+    public PathFinding GetPathFinding()
+    {
+        return pathFinding;
+    }
 
     public void UnitStateNotify(Character character)
     {
@@ -61,22 +85,48 @@ public class GameManager : Singleton<GameManager>
         if (character.CurrentState == CharacterState.TurnDone)
         {
             turnDoneUnitID.Add(character.ID);
-            if (turnDoneUnitID.Count == allUnits.Count)
-            {
-                ToNextTurn();
-            }
+            RunTurn();
+
         }
         else if (character.CurrentState == CharacterState.Generate)
         {
             allUnits.Add(character.ParentUnit);
             if (allUnits.Count == FirstTurnUnitNum)
             {
-                ToNextTurn();
+                NextTurn();
             }
+        }
+        else if (character.CurrentState == CharacterState.Death)
+        {
+            
         }
     }
 
-    private void ToNextTurn()
+    private void RunTurn()
+    {
+        
+        if (turnDoneUnitID.Count == allUnits.Count)
+        {
+            NextTurn();
+            return;
+        }
+        currentActiveIndex++;
+        Unit current = allUnits[currentActiveIndex];
+        if (current.GetCharacter().CurrentState == CharacterState.Death)
+        {
+            turnDoneUnitID.Add(current.GetCharacter().ID);
+            RunTurn();
+            return;
+        }
+        if (current.GetCharacter().IsAI)
+        {
+            CurrentSelectedUnit = current;
+            SelectUnitOrNot(current, true);
+            current.GetAI().TakeTurn();
+        }
+    }
+
+    private void NextTurn()
     { 
         foreach (var unit in allUnits) 
         {
@@ -86,10 +136,17 @@ public class GameManager : Singleton<GameManager>
         turnID += 1;
         Debug.Log("Turn:" + turnID);
         turnDoneUnitID.Clear();
+        // 根据先攻排行动顺序
+        allUnits.Sort((a, b) => b.GetCharacter().Initiative.CompareTo(a.GetCharacter().Initiative));
+        foreach (var unit in allUnits) { Debug.Log("NextTurn start unit name:" + unit.GetCharacter().Name); }
+        currentActiveIndex = 0;
     }
 
     public void OnClickTile(Tile click_tile)
     {
+        Unit currentActiveUnit = allUnits[currentActiveIndex];
+        if (currentActiveUnit.GetCharacter().IsAI)
+            return;
         Unit selectedUnit = CurrentSelectedUnit;
         if (selectedUnit != null)
         {
@@ -99,7 +156,7 @@ public class GameManager : Singleton<GameManager>
             {
                 bool isSameUnit = selectedUnit.IsEqual(click_tile.GetUnit());
                 if (isSameUnit == false 
-                    && (cState == CharacterState.Idle || cState == CharacterState.AttackEnd))
+                    && (cState == CharacterState.Idle || cState == CharacterState.AttackEnd || cState == CharacterState.TurnDone))
                 {
                     SelectUnitOrNot(CurrentSelectedUnit, false);
                     CurrentSelectedUnit = click_tile.GetUnit();
@@ -146,10 +203,7 @@ public class GameManager : Singleton<GameManager>
         if (selectedUnit == null || selectedUnit.GetCharacter().TurnEnd)
             return;
         SelectUnitOrNot(selectedUnit, false);
-        selectedUnit.GetCharacter().TurnEnd = true;
-        selectedUnit.GetCharacter().TurnAttackDone = true;
-        selectedUnit.GetCharacter().TurnMoveDone = true;
-        selectedUnit.GetCharacter().SetCharacterState(CharacterState.TurnDone);
+        selectedUnit.GetCharacter().DoTurnEnd();
     }
 
     public void OnClickCancel()
@@ -179,7 +233,10 @@ public class GameManager : Singleton<GameManager>
         if (unit == null)
             return;
         //show command panel and update btn show
-        uiManager.ShowCommandPanel(is_select, unit.GetCharacter());
+        if (unit.GetCharacter().IsAI || IsCurrentActiveUnit(unit.GetCharacter().ID) == false)
+            uiManager.ShowCommandPanel(false);
+        else
+            uiManager.ShowCommandPanel(is_select, unit.GetCharacter());
         
         //show or hide tile highlight
         CharacterState characterState = unit.GetCharacter().CurrentState;
@@ -187,7 +244,7 @@ public class GameManager : Singleton<GameManager>
         {
             ShowAttackTiles(unit, is_select);
         }
-        else if (characterState == CharacterState.Idle)
+        else if (characterState == CharacterState.Idle || characterState == CharacterState.TurnDone)
         {
             ShowMovableTiles(unit, is_select);
         }
@@ -219,6 +276,10 @@ public class GameManager : Singleton<GameManager>
     {
         if (unit == null)
             return;
+        if (unit.GetCharacter().IsAI)
+            return;
+        if (IsCurrentActiveUnit(unit.GetCharacter().ID) == false)
+            return;
         CharacterState characterState = unit.GetCharacter().CurrentState;
         if (characterState == CharacterState.ReadyForAttack)
         {
@@ -230,7 +291,7 @@ public class GameManager : Singleton<GameManager>
             if (tile.IsMovable() && unit.IsMoving == false && unit.IsInMovableTiles(tile))
             {
                 Tile tileStart = unit.CurrentTile;
-                List<Tile> tempTiles = gridManager.pathFinding.FindPath(tileStart.Position, tile.Position);
+                List<Tile> tempTiles = pathFinding.FindPath(tileStart.Position, tile.Position);
                 unit.Move(tempTiles);
             }
         }
