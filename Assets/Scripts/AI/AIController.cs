@@ -6,6 +6,7 @@ using static UnityEditor.PlayerSettings;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.UI.CanvasScaler;
 
+// test
 public class AIController : MonoBehaviour
 {
 
@@ -65,7 +66,7 @@ public class AIController : MonoBehaviour
 
     private bool HaveTarget()
     {
-        //²éÕÒÇ±ÔÚÄ¿±ê£¬Í¨¹ýÒÆ¶¯¾àÀë+¹¥»÷¾àÀë¼òµ¥²éÕÒ
+        //ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ï¿½Ä¿ï¿½ê£¬Í¨ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½+ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½òµ¥²ï¿½ï¿½ï¿½
         List<Unit> targets = GameManager.Instance.GetAllUnitsWithGroup(UnitGroupType.Player);
         potentialTargets.Clear();
         attackTarget = null;
@@ -86,7 +87,7 @@ public class AIController : MonoBehaviour
         {
             Debug.Log("before index:" + i + " name: " + potentialTargets[i].GetCharacter().Name);
         }
-        //¸ù¾Ý¹æÔòÅÅÐòÄ¿±ê
+        //ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½
         if (potentialTargets.Count > 1)
         {
             potentialTargets.Sort((a, b) => EvaluateTarget(b).CompareTo(EvaluateTarget(a)));
@@ -100,7 +101,7 @@ public class AIController : MonoBehaviour
         if (potentialTargets.Count <= 0)
             return false;
 
-        //ÅÐ¶ÏÄÜ²»ÄÜ¹¥»÷µ½Ç±ÔÚÄ¿±ê
+        //ï¿½Ð¶ï¿½ï¿½Ü²ï¿½ï¿½Ü¹ï¿½ï¿½ï¿½ï¿½ï¿½Ç±ï¿½ï¿½Ä¿ï¿½ï¿½
         for (int i = 0; i < potentialTargets.Count; i++)
         {
             bool hasPos = FindOverlapMoveAndAttackPositions(potentialTargets[i].CurrentTile.Position, out movePosition);
@@ -139,7 +140,7 @@ public class AIController : MonoBehaviour
         {
             float distanceToTarget = Vector2Int.Distance(tile.Position, attack_point);
 
-            // Ñ¡Ôñ¾àÀëÄ¿±ê×î½üµÄ¸ñ×Ó
+            // Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½
             if (distanceToTarget < shortestDistance)
             {
                 shortestDistance = distanceToTarget;
