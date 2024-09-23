@@ -16,8 +16,8 @@ public class Unit : MonoBehaviour
     public bool IsAttacking { get; private set; }
 
     List<Tile> movePath;
-    List<Tile> movableTiles;
-    List<Tile> attackableTiles;
+    HashSet<Tile> movableTiles;
+    HashSet<Tile> attackableTiles;
     Character character;
     AIController ai;
 
@@ -28,11 +28,7 @@ public class Unit : MonoBehaviour
 
     private void Init()
     {
-        Tile tile = GridManager.Instance.GetTileWithWorldPosition(transform.position);
-        if (tile != null) 
-        {
-            tile.PlaceUnit(this, true);
-        }
+        
         character = GetComponent<Character>();
         character.SetParentUnit(this);
         character.SetCharacterState(CharacterState.Generate);
@@ -43,12 +39,13 @@ public class Unit : MonoBehaviour
         }
     }
 
+
     public void SetCurrentTile(Tile current_tile)
     {
         CurrentTile = current_tile;
     }
 
-    public void SetMovableTiles(List<Tile> tiles)
+    public void SetMovableTiles(HashSet<Tile> tiles)
     {
         if (tiles == null || tiles.Count <= 0)
             return;
@@ -67,17 +64,17 @@ public class Unit : MonoBehaviour
         return false;
     }
 
-    public List<Tile> GetMovableTiles()
+    public HashSet<Tile> GetMovableTiles()
     {
         return movableTiles;
     }
 
-    public void SetAttackableTiles(List<Tile> tiles)
+    public void SetAttackableTiles(HashSet<Tile> tiles)
     { 
         attackableTiles = tiles;
     }
 
-    public List<Tile> GetAttackableTiles()
+    public HashSet<Tile> GetAttackableTiles()
     { 
         return attackableTiles;    
     }
@@ -116,6 +113,9 @@ public class Unit : MonoBehaviour
             IsAttacking = true;
             RotateUnit(target_tile.WorldPosition);
             animator?.Attack();
+            foreach (Tile tile in attackableTiles)
+                tile.ShowMoveHighlight(false);
+            attackableTiles = null;
             StartCoroutine(StopAttackCoroutine());
             //has unit?
             if (target_tile.HasUnit())
@@ -143,11 +143,11 @@ public class Unit : MonoBehaviour
         return ai;
     }
 
-    public bool IsEqual(Unit other_unit)
+    public bool IsEqual(Unit other)
     { 
-        if (other_unit == null)
+        if (other == null)
             return false;
-        return character.ID == other_unit.GetCharacter().ID;
+        return character.ID == other.GetCharacter().ID;
     }
 
     public void TakeDamage(int damage)

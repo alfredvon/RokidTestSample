@@ -24,16 +24,16 @@ public class CommandPanel : PannelBase
 
     void OnBtnAttackClick()
     {
-        GameManager.Instance.OnClickAttack();
+        StageManager.Instance.OnClickCommandPanelAttack();
     }
 
     void OnBtnTunEndClick()
     {
-        GameManager.Instance.OnClickTurnEnd();
+        StageManager.Instance.OnClickCommandPanelTurnEnd();
     }
 
     void OnBtnCancelClick()
     {
-        GameManager.Instance.OnClickCancel();
+        StageManager.Instance.OnClickCommandPanelCancel();
     }
 }

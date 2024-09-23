@@ -25,7 +25,7 @@ public class Character : MonoBehaviour
     public void SetCharacterState(CharacterState state)
     {
         CurrentState = state;
-        GameManager.Instance.UnitStateNotify(this);
+        StageManager.Instance.UnitStateNotify(this.ParentUnit);
     }
 
     public void ResetTurnRes()
@@ -52,6 +52,11 @@ public class Character : MonoBehaviour
         {
             SetCharacterState(CharacterState.Death);
         }
+    }
+
+    public bool IsDeath()
+    { 
+        return HP.current <= 0;
     }
 }
 

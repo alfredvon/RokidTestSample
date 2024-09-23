@@ -9,13 +9,13 @@ public class PathFinding : MonoBehaviour
     private void Start()
     {
         if (gridManager == null)
-            gridManager = GridManager.Instance;
+            gridManager = gameObject.GetComponent<GridManager>();
     }
 
-    public List<Tile> GetMovableTiles(Vector2Int start, float move_points)
+    public HashSet<Tile> GetMovableTiles(Vector2Int start, float move_points)
     {
         Tile startTile = gridManager.GetTileAtPosition(start);
-        List<Tile> movableTiles = new List<Tile>();
+        HashSet<Tile> movableTiles = new HashSet<Tile>();
         Queue<(Tile tile, float remainingMovePoints)> queue = new Queue<(Tile, float)>();
         HashSet<Tile> visited = new HashSet<Tile>();
 
@@ -52,9 +52,9 @@ public class PathFinding : MonoBehaviour
         return movableTiles;
     }
 
-    public List<Tile> GetAttackableTiles(Vector2Int start, int attack_range, bool exclude_self = true)
+    public HashSet<Tile> GetAttackableTiles(Vector2Int start, int attack_range, bool exclude_self = true)
     {
-        List<Tile> attackableTiles = new List<Tile>();
+        HashSet<Tile> attackableTiles = new HashSet<Tile>();
 
         // 遍历所有在攻击范围内的格子
         for (int x = -attack_range; x <= attack_range; x++)
@@ -80,7 +80,7 @@ public class PathFinding : MonoBehaviour
         return attackableTiles;
     }
 
-    public List<Tile> FindPath(Vector2Int start, Vector2Int end)
+    public List<Tile> FindPath(Vector2Int start, Vector2Int end, HashSet<Tile> movable_tiles)
     {
         Tile startTile = gridManager.GetTileAtPosition(start);
         Tile endTile = gridManager.GetTileAtPosition(end);
@@ -114,7 +114,7 @@ public class PathFinding : MonoBehaviour
             // 遍历当前节点的邻居
             foreach (Tile neighbor in GetNeighbors(currentTile))
             {
-                if (!neighbor.IsMovable() || closedList.Contains(neighbor))
+                if (!neighbor.IsMovable() || closedList.Contains(neighbor) || !movable_tiles.Contains(neighbor))
                     continue;
 
                 int newMovementCostToNeighbor = currentTile.gCost + GetDistance(currentTile, neighbor);

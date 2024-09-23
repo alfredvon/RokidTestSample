@@ -7,16 +7,7 @@ public class GridController : MonoBehaviour
 {
     [SerializeField] LayerMask terrainLayerMask;
 
-    GridManager targetGrid;
-    GameManager gameManager;
-
     List<Tile> tempTiles;
-
-    private void Start()
-    {
-        targetGrid = GridManager.Instance;
-        gameManager = GameManager.Instance;
-    }
 
 
 
@@ -32,11 +23,11 @@ public class GridController : MonoBehaviour
             {
                 //hitTest = hit.point;
                 //Debug.Log(hitTest);
-                Tile selectTile = targetGrid.GetTileWithWorldPosition(hit.point);
+                Tile selectTile = StageManager.Instance.GetGridManager().GetTileWithWorldPosition(hit.point);
                 if (selectTile == null)
                     return;
 
-                gameManager.OnClickTile(selectTile);
+                StageManager.Instance.OnSelectTile(selectTile);
             }
         }
     }

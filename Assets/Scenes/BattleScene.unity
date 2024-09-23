@@ -485,11 +485,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 148711500}
-  - component: {fileID: 148711501}
   - component: {fileID: 148711502}
+  - component: {fileID: 148711501}
   m_Layer: 0
   m_Name: Grid
-  m_TagString: Untagged
+  m_TagString: GridManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -532,7 +532,6 @@ MonoBehaviour:
     m_Bits: 128
   tilePrefab: {fileID: 1537506617423917624, guid: 35f3bd91a5cf813458656bad86fa6e00, type: 3}
   tileRoot: {fileID: 124790732}
-  pathFinding: {fileID: 0}
 --- !u!114 &148711502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,7 +544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 493bc6ef8c825e843ab2a7fc95b296f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridManager: {fileID: 0}
+  gridManager: {fileID: 148711501}
 --- !u!1 &189471662
 GameObject:
   m_ObjectHideFlags: 0
@@ -1979,6 +1978,72 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1019680787}
   m_SourcePrefab: {fileID: 100100000, guid: 0739da2c4966f0947a19f17093771815, type: 3}
+--- !u!1 &1531962773
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1531962775}
+  - component: {fileID: 1531962774}
+  - component: {fileID: 1531962776}
+  m_Layer: 0
+  m_Name: StageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1531962774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531962773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec7a4998e14d53d47825f866075d5726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridController: {fileID: 0}
+  playerUnits:
+  - {fileID: 1712081747}
+  - {fileID: 439797610}
+  enemyUnits:
+  - {fileID: 1773431872}
+--- !u!4 &1531962775
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531962773}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 580.6533, y: 354.73935, z: 3.0342917}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1531962776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531962773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3039277dc1b9fd48adb0ed2e8ef7499, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!4 &1546537969 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4318619444417497973, guid: eca72826c8ff577469cd4311618bdc24, type: 3}
@@ -2285,6 +2350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b64b9d83c732d384190ff17c811eaad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controlUnit: {fileID: 0}
+  movePosition: {x: 0, y: 0}
+  attackTarget: {fileID: 0}
 --- !u!114 &1773431871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2471,7 +2539,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2071425631}
-  - component: {fileID: 2071425630}
   - component: {fileID: 2071425632}
   m_Layer: 0
   m_Name: GameManager
@@ -2480,21 +2547,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2071425630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2071425629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3039277dc1b9fd48adb0ed2e8ef7499, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  terrainLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!4 &2071425631
 Transform:
   m_ObjectHideFlags: 0
@@ -2522,9 +2574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec299cf3ac8e401419075537f7c6be53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridController: {fileID: 2071425630}
+  stageManager: {fileID: 1531962774}
   uiManager: {fileID: 25736537}
-  FirstTurnUnitNum: 3
 --- !u!1 &2145514265
 GameObject:
   m_ObjectHideFlags: 0
@@ -2641,6 +2692,7 @@ SceneRoots:
   - {fileID: 954368870}
   - {fileID: 490803406}
   - {fileID: 25089660}
-  - {fileID: 2071425631}
   - {fileID: 25736536}
+  - {fileID: 2071425631}
+  - {fileID: 1531962775}
   - {fileID: 6445433}

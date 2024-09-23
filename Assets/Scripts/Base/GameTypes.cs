@@ -33,3 +33,21 @@ public enum UnitGroupType
     Player,
     Enemy
 }
+
+public enum StageState
+{ 
+    None,
+    Start,
+    GenerateGrid,
+    PlacePlayerUnits,
+    PlaceEnemyUnits,
+    TurnStart,
+    Battle,
+    BattleResult
+}
+
+public enum StageWinCondition
+{
+    DefeatAllEnemies,
+    TurnLimit
+}

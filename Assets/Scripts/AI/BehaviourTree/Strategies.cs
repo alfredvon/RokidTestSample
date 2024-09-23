@@ -57,7 +57,7 @@ namespace SelfAI.BehaviourTree
                     return Node.Status.Success;
                 }
                 else
-                    ai.controlUnit.Move(GameManager.Instance.GetPathFinding().FindPath(ai.controlUnit.CurrentTile.Position, ai.movePosition));
+                    ai.controlUnit.Move(StageManager.Instance.GetGridManager().PathFinding.FindPath(ai.controlUnit.CurrentTile.Position, ai.movePosition, ai.controlUnit.GetMovableTiles()));
             }
             return Node.Status.Running;
         }
@@ -98,7 +98,7 @@ namespace SelfAI.BehaviourTree
         public Node.Status Process()
         {
             ai.controlUnit.GetCharacter().DoTurnEnd();
-           
+            ai.StopAI();
             return Node.Status.Success;
         }
     }

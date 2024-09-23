@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridManager : Singleton<GridManager>
+public class GridManager : MonoBehaviour
 {
     Tile[,] grid;
     [SerializeField] int length = 25;
@@ -14,19 +14,11 @@ public class GridManager : Singleton<GridManager>
     [SerializeField] GameObject tilePrefab;
     [SerializeField] GameObject tileRoot;
 
-    [HideInInspector] public PathFinding pathFinding;
+    public PathFinding PathFinding { get; private set; }
 
-
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-        GenerateGrid();
-    }
-
-    private void Start()
-    {
-        //GenerateGrid();
-        pathFinding = GetComponent<PathFinding>();
+        PathFinding = GetComponent<PathFinding>();
     }
 
     public Tile GetTileWithWorldPosition(Vector3 world_position)
@@ -49,7 +41,7 @@ public class GridManager : Singleton<GridManager>
         return grid[x, y];
     }
 
-    public void ShowMovableTiles(List<Tile> tiles, bool is_show)
+    public void ShowMovableTiles(HashSet<Tile> tiles, bool is_show)
     {
         if (tiles == null)
             return;
@@ -59,7 +51,7 @@ public class GridManager : Singleton<GridManager>
         }
     }
 
-    public void ShowAttackableTiles(List<Tile> tiles, bool is_show)
+    public void ShowAttackableTiles(HashSet<Tile> tiles, bool is_show)
     {
         if (tiles == null)
             return;
@@ -69,7 +61,7 @@ public class GridManager : Singleton<GridManager>
         }
     }
 
-    private void GenerateGrid()
+    public void GenerateGrid()
     {
         grid = new Tile[length, width];
         RaycastHit hit;
