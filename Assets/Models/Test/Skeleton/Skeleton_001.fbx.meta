@@ -16,7 +16,8 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftLowerLeg' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -24,7 +25,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -459,7 +460,462 @@ ModelImporter:
   humanDescription:
     serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Skeleton_001(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SwordsWomanRig
+      parentName: Skeleton_001(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: 8.659561e-17, w: 0.7071068}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Root
+      parentName: SwordsWomanRig
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Root.COG
+      parentName: Root
+      position: {x: -0, y: 1.4, z: 0.05}
+      rotation: {x: -0.00000009415697, y: 0.7071068, z: 0.7071067, w: -0.00000009415696}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hips.DEF
+      parentName: Root.COG
+      position: {x: 0.000000022649374, y: -0.050000012, z: -0.14999998}
+      rotation: {x: 0.000000018781416, y: 0.8384923, z: 0.5449135, w: 0.00000017101206}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: Stomach.DEF
+      parentName: Root.COG
+      position: {x: -0.000000011324662, y: 0.049999993, z: 0.07499993}
+      rotation: {x: -0.000000053385083, y: 0.7071067, z: 0.7071069, w: 0.00000005338507}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Chest.DEF
+      parentName: Root.COG
+      position: {x: -0.000000034257145, y: 0.049999963, z: 0.22687483}
+      rotation: {x: -0.00000006225089, y: 0.5658064, z: 0.8245381, w: 0.00000004271719}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Neck.DEF
+      parentName: Root.COG
+      position: {x: -0.00000007927279, y: -0.06493765, z: 0.525}
+      rotation: {x: -0.00000008670333, y: 0.75896543, z: 0.6511309, w: 0.000000101062355}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Head.DEF
+      parentName: Root.COG
+      position: {x: -0.00000009457106, y: -0.049350597, z: 0.62631595}
+      rotation: {x: -0.00000008512009, y: 0.7690065, z: 0.639241, w: 0.000000102399405}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Breast.DEF.l
+      parentName: Root.COG
+      position: {x: 0.07932533, y: 0.057091128, z: 0.4051801}
+      rotation: {x: 0.048545845, y: 0.6991967, z: -0.18117562, w: 0.689886}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: Clavical.DEF.l
+      parentName: Root.COG
+      position: {x: 0.019258443, y: 0.003537055, z: 0.46294475}
+      rotation: {x: 0.33462024, y: 0.060207095, z: -0.7914228, w: 0.50799054}
+      scale: {x: 1.0000001, y: 0.9999998, z: 0.9999999}
+    - name: Bicep.DEF.l
+      parentName: Root.COG
+      position: {x: 0.14007954, y: -0.09502255, z: 0.50033617}
+      rotation: {x: -0.00000007312266, y: -0.000000106068065, z: -0.70775485, w: 0.7064581}
+      scale: {x: 0.9999999, y: 0.9999999, z: 0.9999999}
+    - name: Forearm.DEF.l
+      parentName: Root.COG
+      position: {x: 0.4833366, y: -0.09565203, z: 0.5003362}
+      rotation: {x: 0.000000051516288, y: -0.000000021677145, z: -0.6921259, w: 0.7217768}
+      scale: {x: 0.9999999, y: 0.9999998, z: 0.9999999}
+    - name: Hand.DEF.l
+      parentName: Root.COG
+      position: {x: 0.77473885, y: -0.08342468, z: 0.5003363}
+      rotation: {x: 0.0040042354, y: 0.0040041604, z: -0.70709544, w: 0.70709544}
+      scale: {x: 0.9999999, y: 0.9999998, z: 0.9999999}
+    - name: Index.Base.DEF.l
+      parentName: Root.COG
+      position: {x: 0.8998643, y: -0.047590114, z: 0.51911175}
+      rotation: {x: 0.4935484, y: 0.50636894, z: 0.50636744, w: -0.4935509}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.9999998}
+    - name: Index.Mid.DEF.l
+      parentName: Root.COG
+      position: {x: 0.9513635, y: -0.04759013, z: 0.52043235}
+      rotation: {x: 0.49355114, y: 0.50636744, z: 0.5063665, w: -0.4935507}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.9999998}
+    - name: Index.Tip.DEF.l
+      parentName: Root.COG
+      position: {x: 0.98020065, y: -0.047590133, z: 0.5211717}
+      rotation: {x: 0.49354944, y: 0.5063698, z: 0.50636727, w: -0.49354917}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.9999998}
+    - name: Middle.Base.DEF.l
+      parentName: Root.COG
+      position: {x: 0.8998643, y: -0.072882734, z: 0.51911175}
+      rotation: {x: 0.49354836, y: 0.50636894, z: 0.5063668, w: -0.49355167}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999998}
+    - name: Middle.Mid.DEF.l
+      parentName: Root.COG
+      position: {x: 0.95749414, y: -0.07288274, z: 0.5205895}
+      rotation: {x: 0.49355015, y: 0.50636834, z: 0.50636727, w: -0.49354997}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.9999998}
+    - name: Middle.Tip.DEF.l
+      parentName: Root.COG
+      position: {x: 0.9904234, y: -0.07288275, z: 0.5214339}
+      rotation: {x: 0.49354926, y: 0.50637037, z: 0.5063661, w: -0.49355}
+      scale: {x: 0.99999976, y: 0.99999976, z: 0.9999998}
+    - name: Ring.Base.DEF.l
+      parentName: Root.COG
+      position: {x: 0.897636, y: -0.09696701, z: 0.51905465}
+      rotation: {x: 0.49354967, y: 0.50636905, z: 0.5063677, w: -0.49354926}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: Ring.Mid.DEF.l
+      parentName: Root.COG
+      position: {x: 0.9487847, y: -0.09696702, z: 0.5203663}
+      rotation: {x: 0.4935516, y: 0.5063668, z: 0.50636715, w: -0.49355024}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.99999994}
+    - name: Ring.Tip.DEF.l
+      parentName: Root.COG
+      position: {x: 0.97762185, y: -0.09696702, z: 0.52110565}
+      rotation: {x: 0.49355036, y: 0.5063682, z: 0.50636756, w: -0.49354962}
+      scale: {x: 0.99999994, y: 1, z: 0.99999994}
+    - name: Pinkie.Base.DEF.l
+      parentName: Root.COG
+      position: {x: 0.8930555, y: -0.11978185, z: 0.51893723}
+      rotation: {x: 0.4935488, y: 0.50636995, z: 0.50636727, w: -0.49354976}
+      scale: {x: 0.9999999, y: 0.9999998, z: 0.9999999}
+    - name: Pinkie.Mid.DEF.l
+      parentName: Root.COG
+      position: {x: 0.93074524, y: -0.11978186, z: 0.5199038}
+      rotation: {x: 0.4935523, y: 0.5063649, z: 0.506366, w: -0.49355274}
+      scale: {x: 0.9999999, y: 0.9999998, z: 0.9999999}
+    - name: Pinkie.Tip.DEF.l
+      parentName: Root.COG
+      position: {x: 0.95439005, y: -0.11978187, z: 0.52050984}
+      rotation: {x: 0.49354818, y: 0.5063709, z: 0.50636834, w: -0.49354818}
+      scale: {x: 0.99999994, y: 0.9999999, z: 0.9999999}
+    - name: Thumb.Base.DEF.l
+      parentName: Root.COG
+      position: {x: 0.8363778, y: -0.036151566, z: 0.48604155}
+      rotation: {x: 0.13383995, y: 0.27474478, z: -0.55393493, w: 0.77444065}
+      scale: {x: 0.99999994, y: 0.99999976, z: 0.9999997}
+    - name: Thumb.Mid.DEF.l
+      parentName: Root.COG
+      position: {x: 0.88025665, y: -0.019642122, z: 0.48146868}
+      rotation: {x: 0.13383785, y: 0.274747, z: -0.5539364, w: 0.7744391}
+      scale: {x: 0.9999999, y: 0.99999976, z: 0.9999997}
+    - name: Thumb.Tip.DEF.l
+      parentName: Root.COG
+      position: {x: 0.90704644, y: -0.009562518, z: 0.4786766}
+      rotation: {x: 0.12623805, y: 0.26713228, z: -0.57012594, w: 0.76659036}
+      scale: {x: 0.9999998, y: 0.99999964, z: 0.99999976}
+    - name: Pelvis.DEF.l
+      parentName: Root.COG
+      position: {x: 0.00000002264939, y: -0.050000004, z: -0.14999998}
+      rotation: {x: 0.24868156, y: -0.38913515, z: -0.47763154, w: 0.7473951}
+      scale: {x: 0.9999999, y: 0.99999994, z: 0.9999999}
+    - name: Butt.DEF.l
+      parentName: Root.COG
+      position: {x: 0.09808147, y: -0.06326234, z: -0.03750001}
+      rotation: {x: -0.000000018674964, y: -0.21643943, z: 0.97629607, w: -0.0000001405312}
+      scale: {x: 0.9999994, y: 0.99999994, z: 0.9999999}
+    - name: Thigh.DEF.l
+      parentName: Root.COG
+      position: {x: 0.11126944, y: -0.05000003, z: -0.12446998}
+      rotation: {x: -0.000000047333035, y: -0.7069444, z: 0.70726913, w: -0.0000000473113}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: Calf.DEF.l
+      parentName: Root.COG
+      position: {x: 0.11126947, y: -0.05023199, z: -0.6294112}
+      rotation: {x: -0.00000043466915, y: -0.6553176, z: 0.75535345, w: 0.00000032803965}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: Foot.DEF.l
+      parentName: Root.COG
+      position: {x: 0.111269474, y: -0.13658032, z: -1.2351766}
+      rotation: {x: 0.00000015698924, y: 0.95660406, z: -0.29139107, w: -0.00000032621793}
+      scale: {x: 1, y: 0.99999994, z: 1.0000001}
+    - name: Toes.DEF.l
+      parentName: Root.COG
+      position: {x: 0.11126949, y: 0.011914965, z: -1.3348955}
+      rotation: {x: -0.000000013788856, y: 1, z: -0.00000029802325, w: -0.00000013315805}
+      scale: {x: 1, y: 0.9999999, z: 1}
+    - name: Breast.DEF.r
+      parentName: Root.COG
+      position: {x: -0.07932545, y: 0.057091128, z: 0.4051801}
+      rotation: {x: 0.048545804, y: -0.6991968, z: 0.18117565, w: 0.68988585}
+      scale: {x: 1, y: 1.0000002, z: 1.0000002}
+    - name: Clavical.DEF.r
+      parentName: Root.COG
+      position: {x: -0.019258585, y: 0.003537055, z: 0.46294475}
+      rotation: {x: 0.3346201, y: -0.0602072, z: 0.7914228, w: 0.5079906}
+      scale: {x: 1, y: 0.9999999, z: 0.9999998}
+    - name: Bicep.DEF.r
+      parentName: Root.COG
+      position: {x: -0.14007969, y: -0.09502255, z: 0.50033617}
+      rotation: {x: -0.00000012725873, y: -0.00000011661443, z: 0.70775485, w: 0.7064581}
+      scale: {x: 1, y: 0.9999999, z: 0.9999999}
+    - name: Forearm.DEF.r
+      parentName: Root.COG
+      position: {x: -0.48333678, y: -0.09565203, z: 0.5003361}
+      rotation: {x: -0.000000022820924, y: -0.00000016203954, z: 0.6921259, w: 0.7217768}
+      scale: {x: 1, y: 0.9999998, z: 0.9999999}
+    - name: Hand.DEF.r
+      parentName: Root.COG
+      position: {x: -0.77473897, y: -0.08342467, z: 0.50033605}
+      rotation: {x: 0.004004129, y: -0.0040043085, z: 0.70709544, w: 0.70709544}
+      scale: {x: 1, y: 0.9999998, z: 0.9999999}
+    - name: Index.Base.DEF.r
+      parentName: Root.COG
+      position: {x: -0.89986444, y: -0.047590107, z: 0.5191114}
+      rotation: {x: -0.49354973, y: 0.5063676, z: 0.5063686, w: 0.49354973}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.99999994}
+    - name: Index.Mid.DEF.r
+      parentName: Root.COG
+      position: {x: -0.9513636, y: -0.04759012, z: 0.520432}
+      rotation: {x: -0.493551, y: 0.5063676, z: 0.5063662, w: 0.493551}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.99999994}
+    - name: Index.Tip.DEF.r
+      parentName: Root.COG
+      position: {x: -0.98020077, y: -0.047590125, z: 0.52117133}
+      rotation: {x: -0.49354953, y: 0.50636977, z: 0.5063672, w: 0.4935492}
+      scale: {x: 0.9999998, y: 0.9999999, z: 0.99999994}
+    - name: Middle.Base.DEF.r
+      parentName: Root.COG
+      position: {x: -0.89986444, y: -0.07288273, z: 0.5191115}
+      rotation: {x: -0.4935499, y: 0.50636727, z: 0.5063682, w: 0.4935503}
+      scale: {x: 0.9999998, y: 0.99999976, z: 0.99999994}
+    - name: Middle.Mid.DEF.r
+      parentName: Root.COG
+      position: {x: -0.95749426, y: -0.07288274, z: 0.52058923}
+      rotation: {x: -0.49355, y: 0.5063685, z: 0.5063669, w: 0.49355027}
+      scale: {x: 0.9999998, y: 0.9999998, z: 0.99999994}
+    - name: Middle.Tip.DEF.r
+      parentName: Root.COG
+      position: {x: -0.9904235, y: -0.07288274, z: 0.52143353}
+      rotation: {x: -0.49354997, y: 0.5063697, z: 0.50636655, w: 0.49354944}
+      scale: {x: 0.99999976, y: 0.99999976, z: 0.99999994}
+    - name: Ring.Base.DEF.r
+      parentName: Root.COG
+      position: {x: -0.8976361, y: -0.096967004, z: 0.5190544}
+      rotation: {x: -0.4935492, y: 0.50636953, z: 0.5063671, w: 0.49354985}
+      scale: {x: 1, y: 1.0000001, z: 1.0000001}
+    - name: Ring.Mid.DEF.r
+      parentName: Root.COG
+      position: {x: -0.9487848, y: -0.09696701, z: 0.5203661}
+      rotation: {x: -0.49355087, y: 0.50636756, z: 0.50636625, w: 0.49355108}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1.0000001}
+    - name: Ring.Tip.DEF.r
+      parentName: Root.COG
+      position: {x: -0.977622, y: -0.09696701, z: 0.5211054}
+      rotation: {x: -0.49355048, y: 0.5063681, z: 0.5063676, w: 0.4935496}
+      scale: {x: 0.99999994, y: 1.0000001, z: 1.0000001}
+    - name: Pinkie.Base.DEF.r
+      parentName: Root.COG
+      position: {x: -0.8930556, y: -0.119781844, z: 0.518937}
+      rotation: {x: -0.4935494, y: 0.5063693, z: 0.50636774, w: 0.49354923}
+      scale: {x: 0.99999994, y: 1, z: 1.0000001}
+    - name: Pinkie.Mid.DEF.r
+      parentName: Root.COG
+      position: {x: -0.93074536, y: -0.11978185, z: 0.51990354}
+      rotation: {x: -0.4935515, y: 0.5063657, z: 0.50636506, w: 0.49355355}
+      scale: {x: 0.99999994, y: 1, z: 1.0000001}
+    - name: Pinkie.Tip.DEF.r
+      parentName: Root.COG
+      position: {x: -0.95439017, y: -0.11978186, z: 0.5205096}
+      rotation: {x: -0.49354926, y: 0.50636995, z: 0.5063692, w: 0.49354726}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: Thumb.Base.DEF.r
+      parentName: Root.COG
+      position: {x: -0.8363779, y: -0.036151554, z: 0.4860413}
+      rotation: {x: 0.13383989, y: -0.27474493, z: 0.55393493, w: 0.7744406}
+      scale: {x: 1, y: 0.99999976, z: 0.99999964}
+    - name: Thumb.Mid.DEF.r
+      parentName: Root.COG
+      position: {x: -0.8802568, y: -0.019642113, z: 0.48146844}
+      rotation: {x: 0.13383773, y: -0.2747471, z: 0.5539364, w: 0.7744391}
+      scale: {x: 1, y: 0.9999997, z: 0.9999997}
+    - name: Thumb.Tip.DEF.r
+      parentName: Root.COG
+      position: {x: -0.90704656, y: -0.009562507, z: 0.4786763}
+      rotation: {x: 0.12623799, y: -0.26713237, z: 0.57012606, w: 0.76659024}
+      scale: {x: 1, y: 0.9999997, z: 0.9999997}
+    - name: Pelvis.DEF.r
+      parentName: Root.COG
+      position: {x: 0.00000002264939, y: -0.050000004, z: -0.14999998}
+      rotation: {x: 0.2486815, y: 0.38913497, z: 0.4776315, w: 0.7473952}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Butt.DEF.r
+      parentName: Root.COG
+      position: {x: -0.09808146, y: -0.06326233, z: -0.03750004}
+      rotation: {x: -0.000000054114206, y: -0.21643952, z: 0.97629607, w: 0.00000012439425}
+      scale: {x: 0.9999999, y: 1, z: 1}
+    - name: Thigh.DEF.r
+      parentName: Root.COG
+      position: {x: -0.11126939, y: -0.049999915, z: -0.12446989}
+      rotation: {x: -0.00000003744438, y: -0.7069443, z: 0.70726925, w: -0.00000022569785}
+      scale: {x: 0.9999999, y: 0.9999998, z: 0.99999976}
+    - name: Calf.DEF.r
+      parentName: Root.COG
+      position: {x: -0.11126927, y: -0.05023187, z: -0.6294109}
+      rotation: {x: 0.00000024067782, y: -0.6553176, z: 0.75535345, w: -0.00000049633957}
+      scale: {x: 0.9999999, y: 0.9999998, z: 0.9999997}
+    - name: Foot.DEF.r
+      parentName: Root.COG
+      position: {x: -0.11126909, y: -0.13658017, z: -1.2351764}
+      rotation: {x: -0.000000195959, y: 0.95660406, z: -0.29139093, w: 0.0000004772872}
+      scale: {x: 0.9999999, y: 0.9999998, z: 0.99999976}
+    - name: Toes.DEF.r
+      parentName: Root.COG
+      position: {x: -0.11126907, y: 0.011915129, z: -1.3348954}
+      rotation: {x: -0.00000005842658, y: 1, z: -0.00000023096807, w: 0.00000026631614}
+      scale: {x: 0.9999999, y: 0.9999996, z: 0.9999999}
+    - name: Skirt.Front.Base.DEF
+      parentName: Root.COG
+      position: {x: 0.0000000041759343, y: 0.17191261, z: -0.08296907}
+      rotation: {x: 0.000000007852137, y: 0.8064446, z: -0.5913097, w: 0.00000015936}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: Skirt.Back.Base.DEF
+      parentName: Root.COG
+      position: {x: 0.000000012146014, y: -0.17076899, z: -0.01070869}
+      rotation: {x: -0.80681753, y: -0.00000021436219, z: 0.00000018037349, w: 0.5908007}
+      scale: {x: 1, y: 0.9999995, z: 0.99996316}
+    - name: Skirt.Base.DEF.l
+      parentName: Root.COG
+      position: {x: 0.17645273, y: -0.019548103, z: 0.027526047}
+      rotation: {x: 0.6082568, y: 0.6082567, z: -0.36058798, w: -0.36058804}
+      scale: {x: 0.9999998, y: 1, z: 0.99999994}
+    - name: Skirt.Front.1.Base.DEF.l
+      parentName: Root.COG
+      position: {x: 0.10012306, y: 0.1378179, z: -0.010070309}
+      rotation: {x: 0.31845447, y: 0.7099585, z: -0.5992999, w: -0.18810974}
+      scale: {x: 0.99999994, y: 1, z: 0.9999998}
+    - name: Skirt.Back.1.Base.DEF.l
+      parentName: Root.COG
+      position: {x: 0.092467345, y: -0.12969339, z: 0.0021894118}
+      rotation: {x: -0.7868391, y: -0.30350235, z: 0.107793786, w: 0.52645135}
+      scale: {x: 0.999999, y: 1, z: 0.9999998}
+    - name: Skirt.Base.DEF.r
+      parentName: Root.COG
+      position: {x: -0.17645273, y: -0.019548126, z: 0.027525995}
+      rotation: {x: 0.6082568, y: -0.60825676, z: 0.36058804, w: -0.360588}
+      scale: {x: 1.0000005, y: 1.0000001, z: 1.0000004}
+    - name: Skirt.Front.1.Base.DEF.r
+      parentName: Root.COG
+      position: {x: -0.10012306, y: 0.1378179, z: -0.010070339}
+      rotation: {x: -0.3184544, y: 0.70995855, z: -0.5992999, w: 0.18810982}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.9999999}
+    - name: Skirt.Back.1.Base.DEF.r
+      parentName: Root.COG
+      position: {x: -0.092467315, y: -0.12969342, z: 0.0021893838}
+      rotation: {x: -0.7868391, y: 0.30350247, z: -0.107793964, w: 0.52645123}
+      scale: {x: 0.9999991, y: 1, z: 0.9999998}
+    - name: Sword.DEF.l
+      parentName: Root.COG
+      position: {x: 0.00000021139412, y: -0.05, z: -1.4}
+      rotation: {x: 0.7071068, y: -0.00000004120835, z: -0.00000008429367, w: 0.7071067}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Sword.DEF.r
+      parentName: Root.COG
+      position: {x: 0.00000021139412, y: -0.05, z: -1.4}
+      rotation: {x: -0.00000009415696, y: 0.7071068, z: 0.7071067, w: 0.00000009415697}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Skirt.Front.1.End.DEF.l
+      parentName: Root.COG
+      position: {x: 0.14544111, y: 0.15358007, z: -0.20412026}
+      rotation: {x: 0.30185404, y: 0.6581089, z: -0.65581566, w: -0.21373503}
+      scale: {x: 0.99999994, y: 1.0000001, z: 0.9999998}
+    - name: Skirt.Front.1.End.DEF.r
+      parentName: Root.COG
+      position: {x: -0.14544111, y: 0.15358005, z: -0.2041203}
+      rotation: {x: -0.30185387, y: 0.65810895, z: -0.6558157, w: 0.21373504}
+      scale: {x: 1, y: 0.99999994, z: 0.9999998}
+    - name: Skirt.Front.End.DEF
+      parentName: Root.COG
+      position: {x: 0.000000003056563, y: 0.21525384, z: -0.22043002}
+      rotation: {x: 0.00000001498013, y: 0.72277766, z: -0.69108063, w: 0.00000016990782}
+      scale: {x: 1, y: 1.0000001, z: 1}
+    - name: Skirt.Back.End.DEF
+      parentName: Root.COG
+      position: {x: 0.000000036716372, y: -0.22664568, z: -0.18715143}
+      rotation: {x: -0.7285837, y: -0.000000102793344, z: 0.0000000868489, w: 0.6849568}
+      scale: {x: 1, y: 0.99999833, z: 0.99996436}
+    - name: Skirt.End.DEF.l
+      parentName: Root.COG
+      position: {x: 0.25664935, y: -0.019548142, z: -0.119082294}
+      rotation: {x: 0.57422477, y: 0.5742248, z: -0.41263297, w: -0.41263276}
+      scale: {x: 0.9999998, y: 1.0000001, z: 0.9999998}
+    - name: Skirt.End.DEF.r
+      parentName: Root.COG
+      position: {x: -0.2566493, y: -0.019548146, z: -0.11908237}
+      rotation: {x: 0.57422495, y: -0.5742247, z: 0.41263306, w: -0.41263273}
+      scale: {x: 1.0000005, y: 1.0000001, z: 1.0000004}
+    - name: Skirt.Back.1.End.DEF.l
+      parentName: Root.COG
+      position: {x: 0.15377979, y: -0.17372128, z: -0.14833006}
+      rotation: {x: -0.7107155, y: -0.28667724, z: 0.14679687, w: 0.6254202}
+      scale: {x: 0.999999, y: 0.9999999, z: 0.99999976}
+    - name: Skirt.Back.1.End.DEF.r
+      parentName: Root.COG
+      position: {x: -0.15377972, y: -0.17372131, z: -0.14833012}
+      rotation: {x: -0.7107155, y: 0.2866772, z: -0.14679699, w: 0.62542015}
+      scale: {x: 0.99999917, y: 1, z: 0.9999998}
+    - name: Eye.DEF.l
+      parentName: Root.COG
+      position: {x: 0.06054724, y: 0.054411735, z: 0.7135309}
+      rotation: {x: -2.3848389e-14, y: 1, z: 0.000000029802319, w: -0.00000013315805}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: Eye.DEF.r
+      parentName: Root.COG
+      position: {x: -0.060547456, y: 0.054411735, z: 0.7135309}
+      rotation: {x: 5.8911603e-15, y: 1, z: 0.000000029802319, w: 0.0000002663161}
+      scale: {x: 1, y: 1.0000001, z: 0.99999994}
+    - name: Jaw.DEF
+      parentName: Root.COG
+      position: {x: -0.0000000947604, y: -0.016199227, z: 0.6275698}
+      rotation: {x: 0.00000016260977, y: 0.9853886, z: -0.17032152, w: -0.0000007037694}
+      scale: {x: 1, y: 1, z: 0.99999994}
+    - name: SkeletonBoot.l
+      parentName: Skeleton_001(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -4.3297806e-17, y: 0.7071068, z: 0.7071068, w: -4.3297806e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SkeletonHelmet
+      parentName: Skeleton_001(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -4.3297806e-17, y: 0.7071068, z: 0.7071068, w: -4.3297806e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SkeletonBeltBuckle
+      parentName: Skeleton_001(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -4.3297806e-17, y: 0.7071068, z: 0.7071068, w: -4.3297806e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SkeletonChest
+      parentName: Skeleton_001(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -4.3297806e-17, y: 0.7071068, z: 0.7071068, w: -4.3297806e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SkeletonShoulderPad.r
+      parentName: Skeleton_001(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -4.3297806e-17, y: 0.7071068, z: 0.7071068, w: -4.3297806e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: ArrowEye.l
+      parentName: Skeleton_001(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -4.3297806e-17, y: 0.7071068, z: 0.7071068, w: -4.3297806e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SkeletonShoulderPad.l
+      parentName: Skeleton_001(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -4.3297806e-17, y: 0.7071068, z: 0.7071068, w: -4.3297806e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SkeletonBoot.r
+      parentName: Skeleton_001(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -4.3297806e-17, y: 0.7071068, z: 0.7071068, w: -4.3297806e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: SkeletonBaseMesh
+      parentName: Skeleton_001(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -4.3297806e-17, y: 0.7071068, z: 0.7071068, w: -4.3297806e-17}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -470,13 +926,13 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0

@@ -416,7 +416,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -621,7 +621,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1280,7 +1280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsAI: 1
-  ID: 2
+  ID: 3
   Name: Skel3
   Group: 1
   Initiative: 5
@@ -1556,6 +1556,71 @@ Transform:
   - {fileID: 189471663}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &976910105
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.9880975
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.062368784
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_Name
+      value: Erika Archer With Bow Arrow
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 4c2674466dfa97e49af6cddbc44a50b9, type: 2}
+    - target: {fileID: 5866666021909216657, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
 --- !u!1001 &1001929936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1571,6 +1636,10 @@ PrefabInstance:
     - target: {fileID: 3505209175249113551, guid: eca72826c8ff577469cd4311618bdc24, type: 3}
       propertyPath: m_Name
       value: Skeleton_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217605282519844513, guid: eca72826c8ff577469cd4311618bdc24, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.245
       objectReference: {fileID: 0}
     - target: {fileID: 4318619444417497973, guid: eca72826c8ff577469cd4311618bdc24, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2597,7 +2666,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a51809164ee854342aafac4fc7ebbd86, type: 2}
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2878,3 +2947,4 @@ SceneRoots:
   - {fileID: 2071425631}
   - {fileID: 1531962775}
   - {fileID: 6445433}
+  - {fileID: 976910105}
