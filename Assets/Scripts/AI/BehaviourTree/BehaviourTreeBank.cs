@@ -45,18 +45,18 @@ namespace SelfAI.BehaviourTree
             if (targets.Count <= 0)
                 return false;
 
-            Character character = ai.controlUnit.GetCharacter();
-            int searchRange = character.MovePoints + character.AttackRange;
+            Character character = ai.controlUnit.Character;
+            int searchRange = character.MovePoints + character.CurrentAbility.rangeMax;
             foreach (Unit target in targets)
             {
-                if (target.GetCharacter().CurrentState == CharacterState.Death)
+                if (target.Character.IsDeath())
                     continue;
                 if (Vector2Int.Distance(ai.controlUnit.CurrentTile.Position, target.CurrentTile.Position) <= searchRange)
                     ai.potentialTargets.Add(target);
             }
             //for (int i = 0; i < potentialTargets.Count; i++)
             //{
-            //    Debug.Log("before index:" + i + " name: " + potentialTargets[i].GetCharacter().Name);
+            //    Debug.Log("before index:" + i + " name: " + potentialTargets[i].Character.Name);
             //}
             //根据规则排序目标
             if (ai.potentialTargets.Count > 1)
@@ -66,7 +66,7 @@ namespace SelfAI.BehaviourTree
 
             //for (int i = 0; i < potentialTargets.Count; i++)
             //{
-            //    Debug.Log("after index:" + i + " name: " + potentialTargets[i].GetCharacter().Name);
+            //    Debug.Log("after index:" + i + " name: " + potentialTargets[i].Character.Name);
             //}
 
             if (ai.potentialTargets.Count <= 0)
@@ -91,9 +91,9 @@ namespace SelfAI.BehaviourTree
         private static float EvaluateTarget(Unit self, Unit target)
         {
             float distance = 10f / Vector2Int.Distance(self.CurrentTile.Position, target.CurrentTile.Position);
-            float health = 100f / target.GetCharacter().HP.current;
+            float health = 100f / target.Character.HP.current;
             float score = distance + health;
-            //Debug.Log("targte name:" + target.GetCharacter().Name + " score:" + score);
+            //Debug.Log("targte name:" + target.Character.Name + " score:" + score);
             return score;
         }
 
@@ -103,7 +103,8 @@ namespace SelfAI.BehaviourTree
             float shortestDistance = float.MaxValue;
 
             HashSet<Tile> movableTiles = new HashSet<Tile>(self.GetMovableTiles());
-            HashSet<Tile> attackableTiles = new HashSet<Tile>(StageManager.Instance.GetGridManager().PathFinding.GetAttackableTiles(attack_point, self.GetCharacter().AttackRange));
+            TileFinding tf = StageManager.Instance.GetGridManager().TileFinding;
+            HashSet<Tile> attackableTiles = new HashSet<Tile>(self.Character.CurrentAbility.GetTilesInRange(attack_point, tf));
             movableTiles.IntersectWith(attackableTiles);
 
             foreach (Tile tile in movableTiles)

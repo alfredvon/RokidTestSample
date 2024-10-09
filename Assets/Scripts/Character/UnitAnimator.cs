@@ -16,42 +16,25 @@ public class UnitAnimator : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void StartMoving()
+    public void PlayMoveOrOff(bool on)
     { 
         
-        animator.SetBool(bRun, true);
+        animator.SetBool(bRun, on);
     }
 
-    public void StopMoving() 
-    { 
-        
-        animator.SetBool(bRun, false);
-    }
-
-    public void Attack()
+    public void PlayMeleeAttackOrOff(bool on)
     { 
  
-        animator.SetBool(bAttack, true);
+        animator.SetBool(bAttack, on);
     }
 
-    public void StopAttack()
+    public void PlayHitOrOff(bool on) 
     {
-        
-        animator.SetBool(bAttack, false);
+        animator.SetBool(bHit, on);
     }
 
-    public void Hit() 
+    public void PlayDeathOrOff(bool on)
     {
-        animator.SetBool(bHit, true);
-    }
-
-    public void StopHit()
-    {
-        animator.SetBool(bHit, false);
-    }
-
-    public void Death()
-    {
-        animator.SetBool(bDeath, true);
+        animator.SetBool(bDeath, on);
     }
 }

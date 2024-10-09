@@ -29,7 +29,7 @@ public class AIController : MonoBehaviour
     public void TakeTurn()
     {
         //tree.Process();
-        if (controlUnit.GetCharacter().CurrentState == CharacterState.Death)
+        if (controlUnit.Character.IsDeath())
             return;
         Debug.Log("AI TAKE TURN");
         StopAllCoroutines();
@@ -43,7 +43,7 @@ public class AIController : MonoBehaviour
 
     IEnumerator ProcessCoroutine()
     {
-        while (controlUnit.GetCharacter().CurrentState != CharacterState.TurnDone && controlUnit.GetCharacter().CurrentState != CharacterState.Death)
+        while (controlUnit.Character.CurrentState != CharacterTurnState.TurnDone && controlUnit.Character.IsDeath() == false)
         {
             tree.Process();
             yield return new WaitForFixedUpdate();

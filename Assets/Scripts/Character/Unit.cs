@@ -13,12 +13,12 @@ public class Unit : MonoBehaviour
 
     public Tile CurrentTile { get; private set; }
     public bool IsMoving { get; private set; }
-    public bool IsAttacking { get; private set; }
+    public Character Character { get; private set; }
 
     List<Tile> movePath;
     HashSet<Tile> movableTiles;
-    HashSet<Tile> attackableTiles;
-    Character character;
+    HashSet<Tile> abilityRangeTiles;
+    
     AIController ai;
 
     private void Start()
@@ -29,10 +29,10 @@ public class Unit : MonoBehaviour
     private void Init()
     {
         
-        character = GetComponent<Character>();
-        character.SetParentUnit(this);
-        character.SetCharacterState(CharacterState.Generate);
-        if (character.IsAI == true)
+        Character = GetComponent<Character>();
+        Character.SetParentUnit(this);
+        Character.SetCharacterTurnState(CharacterTurnState.Generate);
+        if (Character.IsAI == true)
         {
             ai = GetComponent<AIController>();
             ai.SetControlUnit(this);
@@ -69,74 +69,49 @@ public class Unit : MonoBehaviour
         return movableTiles;
     }
 
-    public void SetAttackableTiles(HashSet<Tile> tiles)
-    { 
-        attackableTiles = tiles;
-    }
-
-    public HashSet<Tile> GetAttackableTiles()
-    { 
-        return attackableTiles;    
-    }
-
-    public bool IsInAttackableTiles(Tile tile)
+    public void SetAbilityRangeTiles(HashSet<Tile> tiles)
     {
-        if (attackableTiles == null)
+        abilityRangeTiles = tiles;
+    }
+
+    public HashSet<Tile> GetAbilityRangeTiles()
+    { 
+        return abilityRangeTiles;
+    }
+
+    public bool IsInAbilityRangeTiles(Tile tile)
+    {
+        if (abilityRangeTiles == null)
             return false;
-        foreach (Tile t in attackableTiles)
-        {
-            if (tile.Position == t.Position)
-                return true;
-        }
-        return false;
+        
+        return abilityRangeTiles.Contains(tile);
     }
 
     public void Move(List<Tile> path)
     {
         if (IsMoving == false && movePath == null) 
         {
-            ChangeCharacterState(CharacterState.Move);
-            character.TurnMoveDone = true;
+            ChangeCharacterTurnState(CharacterTurnState.Move);
+            Character.TurnMoveDone = true;
             IsMoving = true;
             movePath = path;
-            animator?.StartMoving();
+            animator?.PlayMoveOrOff(true);
             RotateUnit(movePath[0].WorldPosition);
         }
     }
-
-    public void Attack(Tile target_tile)
+    public void ConfirmAbilityTarget(Tile target_tile)
     {
-        if (IsAttacking == false)
-        {
-            character.TurnAttackDone = true;
-            ChangeCharacterState(CharacterState.Attack);
-            IsAttacking = true;
-            RotateUnit(target_tile.WorldPosition);
-            animator?.Attack();
-            foreach (Tile tile in attackableTiles)
-                tile.ShowMoveHighlight(false);
-            attackableTiles = null;
-            StartCoroutine(StopAttackCoroutine());
-            //has unit?
-            if (target_tile.HasUnit())
-            {
-                target_tile.GetUnit().TakeDamage(character.Damage);
-            }
-        }
+        if (IsInAbilityRangeTiles(target_tile) == false)
+            return;
+
+        if (Character.CurrentState == CharacterTurnState.AbilityPerform)
+            return;
+
+        ClearAbilityRangeTiles();
+
+        Character.CurrentAbility.Perform(target_tile);
     }
 
-    IEnumerator StopAttackCoroutine()
-    {
-        yield return new WaitForSeconds(character.AttackInterval);
-        IsAttacking = false;
-        animator?.StopAttack();
-        ChangeCharacterState(CharacterState.AttackEnd);
-    }
-
-    public Character GetCharacter()
-    {
-        return character;
-    }
 
     public AIController GetAI()
     {
@@ -147,7 +122,7 @@ public class Unit : MonoBehaviour
     { 
         if (other == null)
             return false;
-        return character.ID == other.GetCharacter().ID;
+        return Character.ID == other.Character.ID;
     }
 
     public void TakeDamage(int damage)
@@ -157,35 +132,53 @@ public class Unit : MonoBehaviour
 
     IEnumerator HitCoroutine(int damage)
     {
-        //wait for attack animation
-        yield return new WaitForSeconds(.5f);
-        bool hit = false;
-        character.TakeDamage(damage);
-        if (character.CurrentState == CharacterState.Death)
+        Character.TakeDamage(damage);
+        if (Character.IsDeath())
         {
-            animator.Death();
+            animator.PlayDeathOrOff(true);
         }
         else
         {
-            animator.Hit();
-            hit = true;
+            animator.PlayHitOrOff(true);
         }
         //wait for hit animation
         yield return new WaitForSeconds(.5f);
-        if (hit)
-            animator.StopHit();
+        if (Character.IsDeath() == false)
+            animator.PlayHitOrOff(false);
     }
 
-    private void RotateUnit(Vector3 target)
+    public void RotateUnit(Vector3 target)
     {
         Vector3 direction = (target - transform.position).normalized;
         direction.y = 0f;
         transform.rotation = Quaternion.LookRotation(direction);
     }
 
-    private void ChangeCharacterState(CharacterState state)
+    public void PlayCharacterAnimation(CharacterAnimation anim, bool on)
     {
-        character.SetCharacterState(state);
+        switch (anim)
+        {
+            case CharacterAnimation.MeleeAttack:
+                animator.PlayMeleeAttackOrOff(on);
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private void ChangeCharacterTurnState(CharacterTurnState state)
+    {
+        Character.SetCharacterTurnState(state);
+    }
+
+    private void ClearAbilityRangeTiles()
+    {
+        if (abilityRangeTiles == null)
+            return;
+        foreach (Tile tile in abilityRangeTiles)
+            tile.HideHighlight();
+        abilityRangeTiles = null;
     }
 
     private void Update()
@@ -198,6 +191,7 @@ public class Unit : MonoBehaviour
             {
                 transform.position = nextTile.WorldPosition;
                 movePath.RemoveAt(0);
+                Character.RemainingMovePoints--;
                 //move complete
                 if (movePath.Count <= 0)
                 {
@@ -206,11 +200,11 @@ public class Unit : MonoBehaviour
                     CurrentTile = nextTile;
                     CurrentTile.PlaceUnit(this);
                     foreach (Tile tile in movableTiles)
-                        tile.ShowMoveHighlight(false);
+                        tile.HideHighlight();
                     movableTiles = null;
-                    animator?.StopMoving();
+                    animator?.PlayMoveOrOff(false);
                     IsMoving = false;
-                    ChangeCharacterState(CharacterState.ReadyForAttack);
+                    ChangeCharacterTurnState(CharacterTurnState.AbilityTargetSelect);
                 }
                 else
                     RotateUnit(movePath[0].WorldPosition);

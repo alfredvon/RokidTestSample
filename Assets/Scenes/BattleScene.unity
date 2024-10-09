@@ -486,8 +486,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 148711500}
-  - component: {fileID: 148711502}
   - component: {fileID: 148711501}
+  - component: {fileID: 148711502}
   m_Layer: 0
   m_Name: Grid
   m_TagString: GridManager
@@ -542,7 +542,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 148711498}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 493bc6ef8c825e843ab2a7fc95b296f8, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c9883816685ab246a7c5dbe7ce9dcca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gridManager: {fileID: 148711501}
@@ -750,15 +750,19 @@ MonoBehaviour:
   Group: 0
   Initiative: 6
   MovePoints: 4
-  AttackRange: 1
-  AttackInterval: 1.5
+  AC: 10
   HP:
     current: 100
     max: 100
-  Damage: 50
+  ProficiencyBonus: 0
+  BaseAttribute: {fileID: 11400000, guid: 27847acdd524459418a7e1c240911cfb, type: 2}
+  Modifier: {fileID: 0}
   TurnMoveDone: 0
-  TurnAttackDone: 0
   TurnEnd: 0
+  ActionPoints: 1
+  BonusActionPoints: 1
+  ReactionPoints: 1
+  RemainingMovePoints: 0
 --- !u!1 &490803405
 GameObject:
   m_ObjectHideFlags: 0
@@ -1116,6 +1120,7 @@ GameObject:
   - component: {fileID: 694898045}
   - component: {fileID: 694898044}
   - component: {fileID: 694898047}
+  - component: {fileID: 694898048}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1215,6 +1220,50 @@ MonoBehaviour:
   mouseInputInverse: 1
   bottomLeftBorder: {fileID: 847391066}
   topRightBorder: {fileID: 1795349442}
+--- !u!114 &694898048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694898043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
 --- !u!1 &802555214
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,15 +1334,19 @@ MonoBehaviour:
   Group: 1
   Initiative: 5
   MovePoints: 3
-  AttackRange: 2
-  AttackInterval: 1.5
+  AC: 10
   HP:
     current: 100
     max: 100
-  Damage: 50
+  ProficiencyBonus: 0
+  BaseAttribute: {fileID: 11400000, guid: 27847acdd524459418a7e1c240911cfb, type: 2}
+  Modifier: {fileID: 0}
   TurnMoveDone: 0
-  TurnAttackDone: 0
   TurnEnd: 0
+  ActionPoints: 1
+  BonusActionPoints: 1
+  ReactionPoints: 1
+  RemainingMovePoints: 0
 --- !u!114 &802555218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,71 +1609,6 @@ Transform:
   - {fileID: 189471663}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &976910105
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.9880975
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.062368784
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_Name
-      value: Erika Archer With Bow Arrow
-      objectReference: {fileID: 0}
-    - target: {fileID: 5866666021909216657, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 4c2674466dfa97e49af6cddbc44a50b9, type: 2}
-    - target: {fileID: 5866666021909216657, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: b6ad5daf0b1a12244a8411ecd1bf9b8a, type: 3}
 --- !u!1001 &1001929936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1720,6 +1708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1015846428}
   - component: {fileID: 1015846427}
+  - component: {fileID: 1015846429}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -1804,6 +1793,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1015846429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015846426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &1019680784 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 544694098602604298, guid: 0739da2c4966f0947a19f17093771815, type: 3}
@@ -2171,7 +2183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec7a4998e14d53d47825f866075d5726, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridController: {fileID: 0}
+  gridController: {fileID: 1531962776}
   playerUnits:
   - {fileID: 1712081747}
   - {fileID: 439797610}
@@ -2458,15 +2470,19 @@ MonoBehaviour:
   Group: 0
   Initiative: 10
   MovePoints: 5
-  AttackRange: 2
-  AttackInterval: 1.5
+  AC: 10
   HP:
     current: 100
     max: 100
-  Damage: 50
+  ProficiencyBonus: 0
+  BaseAttribute: {fileID: 11400000, guid: 7ce08d2d520a2a24d88cdc2681d0402b, type: 2}
+  Modifier: {fileID: 0}
   TurnMoveDone: 0
-  TurnAttackDone: 0
   TurnEnd: 0
+  ActionPoints: 1
+  BonusActionPoints: 1
+  ReactionPoints: 1
+  RemainingMovePoints: 0
 --- !u!1 &1773431868
 GameObject:
   m_ObjectHideFlags: 0
@@ -2537,15 +2553,19 @@ MonoBehaviour:
   Group: 1
   Initiative: 8
   MovePoints: 4
-  AttackRange: 1
-  AttackInterval: 1.5
+  AC: 10
   HP:
     current: 100
     max: 100
-  Damage: 50
+  ProficiencyBonus: 0
+  BaseAttribute: {fileID: 11400000, guid: 27847acdd524459418a7e1c240911cfb, type: 2}
+  Modifier: {fileID: 0}
   TurnMoveDone: 0
-  TurnAttackDone: 0
   TurnEnd: 0
+  ActionPoints: 1
+  BonusActionPoints: 1
+  ReactionPoints: 1
+  RemainingMovePoints: 0
 --- !u!114 &1773431872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2706,6 +2726,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2071425631}
   - component: {fileID: 2071425632}
+  - component: {fileID: 2071425633}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2742,6 +2763,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageManager: {fileID: 1531962774}
   uiManager: {fileID: 25736537}
+  diceManager: {fileID: 2071425633}
+--- !u!114 &2071425633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071425629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e839587553c8a043aee13beb8126b6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2103009518
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2947,4 +2981,3 @@ SceneRoots:
   - {fileID: 2071425631}
   - {fileID: 1531962775}
   - {fileID: 6445433}
-  - {fileID: 976910105}

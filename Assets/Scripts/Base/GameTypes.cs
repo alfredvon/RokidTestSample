@@ -3,17 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CharacterState
+public enum CharacterTurnState
 {
     None,
     Generate,
     Idle,
     Move,
-    ReadyForAttack,
-    Attack,
-    AttackEnd,
-    TurnDone,
-    Death
+    AbilityTargetSelect,
+    AbilityPerform,
+    AbilityPerformDone,
+    TurnDone
 }
 
 [Serializable]
@@ -50,4 +49,27 @@ public enum StageWinCondition
 {
     DefeatAllEnemies,
     TurnLimit
+}
+
+
+public enum TileHighlightType
+{ 
+    Move,
+    Ability
+}
+
+public enum CharacterAnimation
+{
+    MeleeAttack
+}
+
+public enum CharacterModifierType
+{
+    None,
+    STR,    // 力量
+    DEX,    // 敏捷
+    CON,    // 体质
+    INT,    // 智力
+    WIS,    // 感知
+    CHA     // 魅力
 }

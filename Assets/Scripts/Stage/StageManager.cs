@@ -34,7 +34,7 @@ public class StageManager : Singleton<StageManager>
         List<Unit> units = new List<Unit>();
         foreach (Unit unit in allUnits)
         {
-            if (unit.GetCharacter().Group == group_type)
+            if (unit.Character.Group == group_type)
             {
                 units.Add(unit);
             }
@@ -44,22 +44,24 @@ public class StageManager : Singleton<StageManager>
 
     public void OnClickCommandPanelAttack()
     {
-        if (curUnit == null || curUnit.GetCharacter().TurnAttackDone)
+        if (curUnit == null || curUnit.Character.TurnAttackDone)
             return;
-        CharacterState cState = curUnit.GetCharacter().CurrentState;
-        if (cState == CharacterState.Move || cState == CharacterState.ReadyForAttack)
+        CharacterTurnState cState = curUnit.Character.CurrentState;
+        if (cState == CharacterTurnState.Move)
             return;
-        if (cState == CharacterState.Idle)
-            ShowMovableTiles(curUnit, false);
-        curUnit.GetCharacter().SetCharacterState(CharacterState.ReadyForAttack);
+        if (cState == CharacterTurnState.Idle)
+            gridManager.HideHighlightTiles(curUnit.GetMovableTiles());
+        HashSet<Tile> rangeTiles = curUnit.Character.GetAbilityRangeTiles(gridManager.TileFinding);
+        curUnit.SetAbilityRangeTiles(rangeTiles);
+        ShowAbilityRangeTiles(curUnit);
     }
 
     public void OnClickCommandPanelTurnEnd()
     {
-        if (curUnit == null || curUnit.GetCharacter().TurnEnd == true)
+        if (curUnit == null || curUnit.Character.TurnEnd == true)
             return;
         OnDeselectUnit();
-        curUnit.GetCharacter().DoTurnEnd();
+        curUnit.Character.DoTurnEnd();
     }
 
     public void OnClickCommandPanelCancel()
@@ -71,7 +73,7 @@ public class StageManager : Singleton<StageManager>
 
     public void OnSelectTile(Tile select_tile)
     {
-        if (curUnit.GetCharacter().IsAI)
+        if (curUnit.Character.IsAI)
             return;
         
         if (selectUnit != null)
@@ -79,10 +81,10 @@ public class StageManager : Singleton<StageManager>
             //if change select unit
             if (select_tile.HasUnit())
             {
-                CharacterState cState = selectUnit.GetCharacter().CurrentState;
+                CharacterTurnState cState = selectUnit.Character.CurrentState;
                 bool isSameUnit = selectUnit.IsEqual(select_tile.GetUnit());
                 if (isSameUnit == false
-                    && (cState == CharacterState.Idle || cState == CharacterState.AttackEnd || cState == CharacterState.TurnDone))
+                    && (cState == CharacterTurnState.Idle || cState == CharacterTurnState.AbilityPerformDone || cState == CharacterTurnState.TurnDone))
                 {
                     OnDeselectUnit();
                     OnSelectUnit(select_tile.GetUnit());
@@ -90,12 +92,12 @@ public class StageManager : Singleton<StageManager>
                 else
                 {
                     OnSelectUnit(selectUnit);
-                    DoActionBySelectTile(select_tile);
+                    DoUnitActBySelectTile(select_tile);
                 }
             }
             else
             {
-                DoActionBySelectTile(select_tile);
+                DoUnitActBySelectTile(select_tile);
             }
         }
         else
@@ -110,28 +112,27 @@ public class StageManager : Singleton<StageManager>
 
     public void UnitStateNotify(Unit notify_unit)
     {
-        Character character = notify_unit.GetCharacter();
+        Character character = notify_unit.Character;
         Debug.Log("unit:" + character.Name + " state :" + character.CurrentState);
 
-        if (character.CurrentState == CharacterState.TurnDone)
-        {
-            NextUnit();
-
-        }
-        else if (character.CurrentState == CharacterState.Death)
+        if (character.IsDeath())
         {
             OnUnitDeath();
-        }
-        else if (character.CurrentState == CharacterState.ReadyForAttack)
+        }else if (character.CurrentState == CharacterTurnState.TurnDone)
         {
-            notify_unit.SetAttackableTiles(gridManager.PathFinding.GetAttackableTiles(notify_unit.CurrentTile.Position, character.AttackRange));
-            ShowAttackTiles(notify_unit, true);
+            NextUnitTurn();
+
         }
-        else if (character.CurrentState == CharacterState.Move)
+        //else if (character.CurrentState == CharacterTurnState.ReadyForAttack)
+        //{
+        //    //notify_unit.SetAttackableTiles(gridManager.TileFinding.GetAttackableTiles(notify_unit.CurrentTile.Position, character.AttackRange));
+        //    //ShowAttackTiles(notify_unit, true);
+        //}
+        else if (character.CurrentState == CharacterTurnState.Move)
         {
-            ShowMovableTiles(notify_unit, true);
+            ShowMovableTiles(notify_unit);
         }
-        else if (character.CurrentState == CharacterState.Generate)
+        else if (character.CurrentState == CharacterTurnState.Generate)
         {
             allUnits.Add(notify_unit);
             if (allUnits.Count >= (playerUnits.Count + enemyUnits.Count)) 
@@ -139,7 +140,7 @@ public class StageManager : Singleton<StageManager>
                 ChangeState(StageState.TurnStart);
             }
         }
-        else if (character.CurrentState == CharacterState.Attack)
+        else if (character.CurrentState == CharacterTurnState.AbilityPerform)
         {
             if (notify_unit.IsEqual(selectUnit))
                 OnSelectUnit(selectUnit);
@@ -192,7 +193,7 @@ public class StageManager : Singleton<StageManager>
                 Debug.LogError("cant find grid manager object");
         }
         
-        uiManager = GameManager.Instance.GetUIManager();
+        uiManager = GameManager.Instance.UIManager;
 
         ResetStage();
         ChangeState(StageState.GenerateGrid);
@@ -239,13 +240,13 @@ public class StageManager : Singleton<StageManager>
     private void OnTurnStart()
     {
         //¸ù¾ÝÏÈ¹¥ÅÅÐò
-        allUnits.Sort((a, b) => b.GetCharacter().Initiative.CompareTo(a.GetCharacter().Initiative));
+        allUnits.Sort((a, b) => b.Character.Initiative.CompareTo(a.Character.Initiative));
         activeUnits.Clear();
         foreach (var unit in allUnits)
         {
-            if (unit.GetCharacter().CurrentState != CharacterState.Death)
+            if (unit.Character.IsDeath() == false)
             {
-                unit.GetCharacter().ResetTurnRes();
+                unit.Character.ResetTurnRes();
                 activeUnits.Enqueue(unit);
             }
                 
@@ -268,16 +269,16 @@ public class StageManager : Singleton<StageManager>
 
     private void OnBattle()
     {
-        NextUnit();
+        NextUnitTurn();
     }
 
-    private void NextUnit()
+    private void NextUnitTurn()
     {
         if (activeUnits.Count > 0)
         {
             curUnit = activeUnits.Dequeue();
-            curUnit.SetMovableTiles(gridManager.PathFinding.GetMovableTiles(curUnit.CurrentTile.Position, curUnit.GetCharacter().MovePoints));
-            if (curUnit.GetCharacter().IsAI)
+            curUnit.SetMovableTiles(gridManager.TileFinding.GetMovableTiles(curUnit.CurrentTile.Position, curUnit.Character.MovePoints));
+            if (curUnit.Character.IsAI)
             {
                 curUnit.GetAI().TakeTurn();
             }
@@ -299,7 +300,7 @@ public class StageManager : Singleton<StageManager>
             bool win = true;
             foreach (var unit in enemyUnits) 
             {
-                if (unit.GetCharacter().CurrentState != CharacterState.Death)
+                if (unit.Character.IsDeath() == false)
                 { 
                     win = false; 
                     break;
@@ -317,7 +318,7 @@ public class StageManager : Singleton<StageManager>
         bool lose = true;
         foreach (var unit in playerUnits)
         {
-            if (unit.GetCharacter().CurrentState != CharacterState.Death)
+            if (unit.Character.IsDeath() == false)
             {
                 lose = false;
                 break;
@@ -334,28 +335,28 @@ public class StageManager : Singleton<StageManager>
     {
         if (unit == null)
             return;
-        if (curUnit.GetCharacter().IsAI)
+        if (curUnit.Character.IsAI)
             return;
         if (selectUnit != null && selectUnit.IsEqual(unit))
         {
-            uiManager.ShowCommandPanel(selectUnit.IsEqual(curUnit), unit.GetCharacter());
+            uiManager.ShowCommandPanel(selectUnit.IsEqual(curUnit), unit.Character);
             return;
         }
         selectUnit = unit;
         //show command panel and update btn show
-        uiManager.ShowCommandPanel(selectUnit.IsEqual(curUnit), unit.GetCharacter());
+        uiManager.ShowCommandPanel(selectUnit.IsEqual(curUnit), unit.Character);
 
         //show or hide tile highlight
-        CharacterState characterState = selectUnit.GetCharacter().CurrentState;
-        if (characterState == CharacterState.ReadyForAttack)
+        CharacterTurnState CharacterTurnState = selectUnit.Character.CurrentState;
+        if (CharacterTurnState == CharacterTurnState.AbilityTargetSelect)
         {
-            gridManager.ShowAttackableTiles(selectUnit.GetAttackableTiles(), true);
+            ShowAbilityRangeTiles(selectUnit);
         }
-        else if (characterState == CharacterState.Idle || characterState == CharacterState.TurnDone)
+        else if (CharacterTurnState == CharacterTurnState.Idle || CharacterTurnState == CharacterTurnState.TurnDone)
         {
             if (selectUnit.GetMovableTiles() == null)
-                selectUnit.SetMovableTiles(gridManager.PathFinding.GetMovableTiles(selectUnit.CurrentTile.Position, selectUnit.GetCharacter().MovePoints));
-            gridManager.ShowMovableTiles(selectUnit.GetMovableTiles(), true);
+                selectUnit.SetMovableTiles(gridManager.TileFinding.GetMovableTiles(selectUnit.CurrentTile.Position, selectUnit.Character.MovePoints));
+            ShowMovableTiles(selectUnit);
         }
     }
 
@@ -368,47 +369,46 @@ public class StageManager : Singleton<StageManager>
         uiManager.ShowCommandPanel(false);
 
         //show or hide tile highlight
-        CharacterState characterState = selectUnit.GetCharacter().CurrentState;
-        if (characterState == CharacterState.ReadyForAttack)
+        CharacterTurnState CharacterTurnState = selectUnit.Character.CurrentState;
+        if (CharacterTurnState == CharacterTurnState.AbilityTargetSelect)
         {
-            gridManager.ShowAttackableTiles(selectUnit.GetAttackableTiles(), false);
+            gridManager.HideHighlightTiles(selectUnit.GetAbilityRangeTiles());
         }
-        else if (characterState == CharacterState.Idle || characterState == CharacterState.TurnDone)
+        else if (CharacterTurnState == CharacterTurnState.Idle || CharacterTurnState == CharacterTurnState.TurnDone)
         {
-            gridManager.ShowMovableTiles(selectUnit.GetMovableTiles(), false);
+            gridManager.HideHighlightTiles(selectUnit.GetMovableTiles());
         }
 
         selectUnit = null;
     }
 
-    private void ShowAttackTiles(Unit unit, bool is_show)
+    private void ShowAbilityRangeTiles(Unit unit)
     {
-       gridManager.ShowAttackableTiles(unit.GetAttackableTiles(), is_show);
+       gridManager.ShowHighlightTiles(TileHighlightType.Ability, unit.GetAbilityRangeTiles());
     }
 
-    private void ShowMovableTiles(Unit unit, bool is_show)
+    private void ShowMovableTiles(Unit unit)
     {
-       gridManager.ShowMovableTiles(unit.GetMovableTiles(), is_show);
+       gridManager.ShowHighlightTiles(TileHighlightType.Move, unit.GetMovableTiles());
     }
 
-    private void DoActionBySelectTile(Tile select_tile)
+    private void DoUnitActBySelectTile(Tile select_tile)
     {
         if (selectUnit == null)
             return;
         if (selectUnit.IsEqual(curUnit) == false)
             return;
-        CharacterState cState = selectUnit.GetCharacter().CurrentState;
-        if (cState == CharacterState.ReadyForAttack)
+        CharacterTurnState cState = selectUnit.Character.CurrentState;
+        if (cState == CharacterTurnState.AbilityTargetSelect)
         {
-            if (selectUnit.IsInAttackableTiles(select_tile))
-                selectUnit.Attack(select_tile);
+            selectUnit.ConfirmAbilityTarget(select_tile);
         }
-        else if (cState == CharacterState.Idle)
+        else if (cState == CharacterTurnState.Idle)
         {
             if (select_tile.IsMovable() && selectUnit.IsMoving == false && selectUnit.IsInMovableTiles(select_tile))
             {
                 Tile tileStart = selectUnit.CurrentTile;
-                List<Tile> tempTiles = gridManager.PathFinding.FindPath(tileStart.Position, select_tile.Position, selectUnit.GetMovableTiles());
+                List<Tile> tempTiles = gridManager.TileFinding.FindPath(tileStart.Position, select_tile.Position, selectUnit.GetMovableTiles());
                 selectUnit.Move(tempTiles);
             }
         }
@@ -420,7 +420,7 @@ public class StageManager : Singleton<StageManager>
         while (activeUnits.Count > 0)
         {
             Unit unit = activeUnits.Dequeue();
-            if (unit.GetCharacter().IsDeath() == false)
+            if (unit.Character.IsDeath() == false)
                 temp.Enqueue(unit);
         }
         activeUnits = temp;

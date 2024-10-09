@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(GridManager))]
-public class PathFinding : MonoBehaviour
+public class TileFinding : MonoBehaviour
 {
     public GridManager gridManager;
     private void Start()
@@ -52,22 +52,24 @@ public class PathFinding : MonoBehaviour
         return movableTiles;
     }
 
-    public HashSet<Tile> GetAttackableTiles(Vector2Int start, int attack_range, bool exclude_self = true)
+    public HashSet<Tile> GetTilesInRange(Vector2Int start, int range_min, int range_max, bool exclude_start = true)
     {
         HashSet<Tile> attackableTiles = new HashSet<Tile>();
-
+        
         // 遍历所有在攻击范围内的格子
-        for (int x = -attack_range; x <= attack_range; x++)
+        for (int x = -range_max; x <= range_max; x++)
         {
-            for (int y = -attack_range; y <= attack_range; y++)
+            for (int y = -range_max; y <= range_max; y++)
             {
-                if (exclude_self && x == 0 && y == 0)
+                //是否包括起点格
+                if (x == 0 && y == 0 && exclude_start)
                     continue;
 
                 Vector2Int pos = new Vector2Int(start.x + x, start.y + y);
 
                 // 使用曼哈顿距离判断是否在攻击范围内
-                if (Mathf.Abs(x) + Mathf.Abs(y) <= attack_range)
+                int dis = Mathf.Abs(x) + Mathf.Abs(y);
+                if (dis <= range_max && dis >= range_min)
                 {
                     Tile tile = gridManager.GetTileAtPosition(pos);
                     if (tile == null || !tile.Passable)

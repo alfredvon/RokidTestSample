@@ -14,11 +14,11 @@ public class GridManager : MonoBehaviour
     [SerializeField] GameObject tilePrefab;
     [SerializeField] GameObject tileRoot;
 
-    public PathFinding PathFinding { get; private set; }
+    public TileFinding TileFinding { get; private set; }
 
     private void Awake()
     {
-        PathFinding = GetComponent<PathFinding>();
+        TileFinding = GetComponent<TileFinding>();
     }
 
     public Tile GetTileWithWorldPosition(Vector3 world_position)
@@ -41,23 +41,23 @@ public class GridManager : MonoBehaviour
         return grid[x, y];
     }
 
-    public void ShowMovableTiles(HashSet<Tile> tiles, bool is_show)
-    {
-        if (tiles == null)
-            return;
-        foreach (Tile tile in tiles) 
-        {
-            tile.ShowMoveHighlight(is_show);
-        }
-    }
-
-    public void ShowAttackableTiles(HashSet<Tile> tiles, bool is_show)
+    public void ShowHighlightTiles(TileHighlightType type, HashSet<Tile> tiles)
     {
         if (tiles == null)
             return;
         foreach (Tile tile in tiles)
         {
-            tile.ShowAttackHighlight(is_show);
+            tile.ShowHighlight(type);
+        }
+    }
+
+    public void HideHighlightTiles(HashSet<Tile> tiles)
+    {
+        if (tiles == null)
+            return;
+        foreach (Tile tile in tiles)
+        {
+            tile.HideHighlight();
         }
     }
 
@@ -85,7 +85,7 @@ public class GridManager : MonoBehaviour
                 bool passable = !Physics.CheckBox(tilePos, Vector3.one / 2 * cellSize, Quaternion.identity, obstacleLayer);
                 tile.SetPassable(passable);
                 tile.SetWorldPosition(tilePos);
-                tile.ShowMoveHighlight(false);
+                tile.HideHighlight();
                 
                 grid[x, y] = tile;
                 

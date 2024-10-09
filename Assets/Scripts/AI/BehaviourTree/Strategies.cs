@@ -47,17 +47,22 @@ namespace SelfAI.BehaviourTree
         }
 
         public Node.Status Process() {
-            if (ai.controlUnit.GetCharacter().CurrentState == CharacterState.ReadyForAttack)
+            if (ai.controlUnit.Character.CurrentState == CharacterTurnState.AbilityTargetSelect)
+            {
+                HashSet<Tile> rangeTiles = ai.controlUnit.Character.GetAbilityRangeTiles(StageManager.Instance.GetGridManager().TileFinding);
+                ai.controlUnit.SetAbilityRangeTiles(rangeTiles);
                 return Node.Status.Success;
-            if (ai.controlUnit.GetCharacter().CurrentState == CharacterState.Idle)
+            }
+            if (ai.controlUnit.Character.CurrentState == CharacterTurnState.Idle)
             {
                 if (ai.controlUnit.CurrentTile.Position == ai.movePosition)
                 {
-                    ai.controlUnit.GetCharacter().SetCharacterState(CharacterState.ReadyForAttack);
+                    HashSet<Tile> rangeTiles = ai.controlUnit.Character.GetAbilityRangeTiles(StageManager.Instance.GetGridManager().TileFinding);
+                    ai.controlUnit.SetAbilityRangeTiles(rangeTiles);
                     return Node.Status.Success;
                 }
                 else
-                    ai.controlUnit.Move(StageManager.Instance.GetGridManager().PathFinding.FindPath(ai.controlUnit.CurrentTile.Position, ai.movePosition, ai.controlUnit.GetMovableTiles()));
+                    ai.controlUnit.Move(StageManager.Instance.GetGridManager().TileFinding.FindPath(ai.controlUnit.CurrentTile.Position, ai.movePosition, ai.controlUnit.GetMovableTiles()));
             }
             return Node.Status.Running;
         }
@@ -74,14 +79,14 @@ namespace SelfAI.BehaviourTree
 
         public Node.Status Process()
         {
-            if (ai.controlUnit.GetCharacter().CurrentState == CharacterState.AttackEnd)
+            if (ai.controlUnit.Character.CurrentState == CharacterTurnState.AbilityPerformDone)
             {
                 return Node.Status.Success;
             }
                 
-            if (ai.controlUnit.GetCharacter().CurrentState == CharacterState.ReadyForAttack)
+            if (ai.controlUnit.Character.CurrentState == CharacterTurnState.AbilityTargetSelect)
             {
-                ai.controlUnit.Attack(ai.attackTarget.CurrentTile);
+                ai.controlUnit.ConfirmAbilityTarget(ai.attackTarget.CurrentTile);
             }
             return Node.Status.Running;
         }
@@ -97,7 +102,7 @@ namespace SelfAI.BehaviourTree
 
         public Node.Status Process()
         {
-            ai.controlUnit.GetCharacter().DoTurnEnd();
+            ai.controlUnit.Character.DoTurnEnd();
             ai.StopAI();
             return Node.Status.Success;
         }

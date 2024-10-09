@@ -87,17 +87,27 @@ public class Tile : MonoBehaviour
         return Passable && !HasUnit();
     }
 
-    public void ShowMoveHighlight(bool is_highlight)
+    public void ShowHighlight(TileHighlightType type)
     {
-        if (is_highlight == true)
-            QuadObejct.GetComponent<Renderer>().sharedMaterial = MoveHightlightMateiral;
-        QuadObejct?.SetActive(is_highlight);
+
+        switch (type)
+        {
+            case TileHighlightType.Move:
+                QuadObejct.GetComponent<Renderer>().sharedMaterial = MoveHightlightMateiral;
+                break;
+            case TileHighlightType.Ability:
+                QuadObejct.GetComponent<Renderer>().sharedMaterial = AttackHighlightMaterial;
+                break;
+            default:
+                break;
+        }
+
+
+        QuadObejct?.SetActive(true);
     }
 
-    public void ShowAttackHighlight(bool is_highlight)
+    public void HideHighlight()
     {
-        if (is_highlight == true)
-            QuadObejct.GetComponent<Renderer>().sharedMaterial = AttackHighlightMaterial;
-        QuadObejct?.SetActive(is_highlight);
+        QuadObejct?.SetActive(false);
     }
 }
